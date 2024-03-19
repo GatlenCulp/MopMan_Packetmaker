@@ -1,0 +1,29 @@
+airtable==0.4.8
+appscript @ file:///Users/runner/miniforge3/conda-bld/appscript_1695846537227/work
+beautifulsoup4 @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/beautifulsoup4-split_1699282613795/work
+Brotli @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/brotli-split_1699237319520/work
+certifi @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_02sk98_3w5/croot/certifi_1696279385184/work/certifi
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1698833585322/work
+colorama @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/colorama_1699282140182/work
+dataclasses @ file:///home/conda/feedstock_root/build_artifacts/dataclasses_1628958434797/work
+docx2pdf==0.1.8
+docxtpl @ file:///home/conda/feedstock_root/build_artifacts/docxtpl_1620575726177/work
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1663625384323/work
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1654302431367/work
+lxml @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/lxml_1699242309551/work
+MarkupSafe @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/markupsafe_1699238356177/work
+Pillow @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pillow_1699239265580/work
+pypdf @ file:///home/conda/feedstock_root/build_artifacts/pypdf-split_1698673332383/work/dist
+pypng @ file:///home/conda/feedstock_root/build_artifacts/pypng_1657927854370/work
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
+python-docx @ file:///home/conda/feedstock_root/build_artifacts/python-docx_1699112376538/work
+qrcode @ file:///home/conda/feedstock_root/build_artifacts/qrcode_1675713361580/work
+reportlab @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/reportlab_1699262539080/work
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1684774241324/work
+setuptools==68.0.0
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+soupsieve @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/soupsieve_1699282494776/work
+tqdm==4.66.1
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1695040754690/work
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1697720414277/work
+wheel==0.41.2

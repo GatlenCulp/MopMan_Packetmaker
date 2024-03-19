@@ -68,4 +68,6 @@ dist/
 # Secret files #
 ###############
 .env
+/.env
 secret_key.txt
+__pycache__/
