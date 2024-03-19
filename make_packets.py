@@ -9,8 +9,9 @@ from scripts.template_factory import makeIDFromTitle
 from pypdf import PdfWriter
 from scripts.add_footer2pdf import add_footer_to_pdf
 from scripts.DocumentGenerator import CoverGenerator, FurtherGenerator, GuideGenerator, DeviceReadingGenerator, logger
-from config import config
 import subprocess
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
 
 
 # def convertToPdf(path: pl.Path) -> pl.Path:

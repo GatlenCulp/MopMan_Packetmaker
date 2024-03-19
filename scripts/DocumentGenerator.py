@@ -9,7 +9,9 @@ from typing import Callable, Dict
 import docx2pdf
 from scripts.template_factory import makeIDFromTitle, makeQRCode, get_favicon_from_website
 import urllib
-from config import config
+import json
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
 
 def initLogger() -> logging.Logger:
     """
