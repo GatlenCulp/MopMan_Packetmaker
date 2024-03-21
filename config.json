@@ -160,9 +160,13 @@
             "record_id": "recx7GJ4fTtX7G7In",
             "make_packet": false
         },
-        "MAIA AISF Technical Spring 2024 Meeting 5": {
+        "MAIA AISF Technical Spring 2024 Meeting 5 - Deception (OLD)": {
             "record_id": "recPOAk9GEP3PKNm1",
             "make_packet": false
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 5 - Model Internals": {
+            "record_id": "recqAwydXfygJoxbU",
+            "make_packet": true
         },
         "MAIA AISF Technical Spring 2024 Meeting 6": {
             "record_id": "recDPoo8RM1B10WAA",
@@ -194,7 +198,7 @@
         },
         "MAIA AISF Policy Spring 2024 Meeting 4 - Self and Corporate Governance": {
             "record_id": "rec3bJbqtrhcpjYYR",
-            "make_packet": true
+            "make_packet": false
         },
         "MAIA AISF Policy Spring 2024 Meeting 5 - Compute governance": {
             "record_id": "recrJ7k1JqKAebXSn",
@@ -282,10 +286,10 @@
         }
     },
     "generate": {
-        "cover": true,
-        "device_readings": true,
-        "further_readings": true,
-        "packet": true,
-        "tas_guides": false
+        "cover": false,
+        "device_readings": false,
+        "further_readings": false,
+        "packet": false,
+        "tas_guides": true
     }
 }
