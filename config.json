@@ -30,7 +30,7 @@
         },
         "AISST Intro Fellowship Spring 2024 Meeting 5 - Model internals": {
             "record_id": "rece0XFZaiP6aORuW",
-            "make_packet": false
+            "make_packet": true
         },
         "AISST Intro Fellowship Spring 2024 Meeting 6 - Scalable oversight": {
             "record_id": "recp1UyHI2HbcAvpm",
@@ -166,7 +166,7 @@
         },
         "MAIA AISF Technical Spring 2024 Meeting 5 - Model Internals": {
             "record_id": "recqAwydXfygJoxbU",
-            "make_packet": true
+            "make_packet": false
         },
         "MAIA AISF Technical Spring 2024 Meeting 6": {
             "record_id": "recDPoo8RM1B10WAA",
@@ -210,7 +210,7 @@
         },
         "MAIA AISF Policy Spring 2024 Meeting 7 - Other proposals, next steps, and careers": {
             "record_id": "recMtKFW5BcorOxQ9",
-            "make_packet": false
+            "make_packet": true
         },
         "MAIA Undergrad Member Meeting Spring 2024 Meeting 1 - TBD": {
             "record_id": "recskC5aEHeOQkyn9",
@@ -260,6 +260,10 @@
             "record_id": "recN5t8MqkRmtJif8",
             "make_packet": false
         },
+        "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 7 - TBD": {
+            "record_id": "recTcreD5G7mZIrXC",
+            "make_packet": false
+        },
         "MAIA Grad Member Meeting Spring 2024 Meeting 1 - TBD": {
             "record_id": "reccAZVbfoIDTjS8y",
             "make_packet": false
@@ -286,10 +290,10 @@
         }
     },
     "generate": {
-        "cover": false,
-        "device_readings": false,
-        "further_readings": false,
-        "packet": false,
-        "tas_guides": true
+        "cover": true,
+        "device_readings": true,
+        "further_readings": true,
+        "packet": true,
+        "tas_guides": false
     }
 }
