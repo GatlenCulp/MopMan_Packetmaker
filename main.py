@@ -28,9 +28,12 @@ def check_permissions(path):
         return False
     return True
 
+
 # In the main function, before generating the cover:
 if not check_permissions(config["output_dir"]):
-    raise PermissionError(f"Insufficient permissions for output directory: {config["output_dir"]}")
+    raise PermissionError(
+        f"Insufficient permissions for output directory: {config["output_dir"]}"
+    )
 
 # def convertToPdf(path: pl.Path) -> pl.Path:
 #     assert isinstance(path, pl.Path)

@@ -168,10 +168,9 @@ class DocumentGenerator(object):
             isinstance(precontext, dict) or precontext is None
         ), f"Please provide a valid precontext. Received {precontext}."
         assert (
-            isinstance(output_path, pl.Path) and output_path.suffix == ".pdf"
-        ) or output_path is None, (
-            f"Please provide a valid output_path. Received {output_path}."
-        )
+            (isinstance(output_path, pl.Path) and output_path.suffix == ".pdf")
+            or output_path is None
+        ), f"Please provide a valid output_path. Received {output_path}."
         assert isinstance(overwrite, bool)
         # precontext given, generate a new docx regardless of whether one exists or not.
         # if precontext:

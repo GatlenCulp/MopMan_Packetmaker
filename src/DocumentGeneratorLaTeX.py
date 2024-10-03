@@ -16,23 +16,24 @@ import shutil
 #     get_favicon_from_website,
 # )
 
+
 def latex_escape(text):
     """
     Escapes LaTeX special characters in the given text.
     """
     if text is None:
-        return ''
+        return ""
     special_chars = {
-        '&': r'\&',
-        '%': r'\%',
-        '$': r'\$',
-        '#': r'\#',
-        '_': r'\_',
-        '{': r'\{',
-        '}': r'\}',
-        '~': r'\textasciitilde{}',
-        '^': r'\textasciicircum{}',
-        '\\': r'\textbackslash{}',
+        "&": r"\&",
+        "%": r"\%",
+        "$": r"\$",
+        "#": r"\#",
+        "_": r"\_",
+        "{": r"\{",
+        "}": r"\}",
+        "~": r"\textasciitilde{}",
+        "^": r"\textasciicircum{}",
+        "\\": r"\textbackslash{}",
     }
     for char, escape in special_chars.items():
         text = text.replace(char, escape)
@@ -41,7 +42,8 @@ def latex_escape(text):
 
 def makeIDFromTitle(title):
     # Dummy implementation for illustration
-    return title.replace(' ', '_')
+    return title.replace(" ", "_")
+
 
 def makeQRCode(url, id, output_path):
     # Dummy implementation for illustration
@@ -49,14 +51,17 @@ def makeQRCode(url, id, output_path):
     # Generate QR code and save to qr_code_path
     return qr_code_path
 
+
 def get_favicon_from_website(url, output_path):
     # Dummy implementation for illustration
     favicon_path = output_path / "favicon.png"
     # Download favicon and save to favicon_path
     return favicon_path
 
+
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
+
 
 def initLogger() -> logging.Logger:
     """
@@ -67,6 +72,7 @@ def initLogger() -> logging.Logger:
     logging.Logger
         The initialized logger.
     """
+
     class CustomFormatter(logging.Formatter):
         grey = "\x1b[38;20m"
         yellow = "\x1b[33;20m"
@@ -102,7 +108,9 @@ def initLogger() -> logging.Logger:
 
     return logger
 
+
 logger = initLogger()
+
 
 class DocumentGenerator(object):
     """
@@ -122,6 +130,7 @@ class DocumentGenerator(object):
     generateTex(output_path: Path) -> Path:
         Renders the template with the context and saves it to the output_path.
     """
+
     def __init__(
         self,
         template_path: pl.Path,
@@ -138,9 +147,9 @@ class DocumentGenerator(object):
         # Set up the Jinja2 environment
         self.env = Environment(
             loader=FileSystemLoader(str(template_path.parent)),
-            autoescape=select_autoescape(['tex'])
+            autoescape=select_autoescape(["tex"]),
         )
-        self.env.filters['latex_escape'] = latex_escape
+        self.env.filters["latex_escape"] = latex_escape
         # Load the template
         self.template = self.env.get_template(template_path.name)
         # Generate .tex file
@@ -188,7 +197,7 @@ class DocumentGenerator(object):
         # Render the template
         rendered_tex = self.template.render(self.context)
         # Save the rendered template to output_path
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(rendered_tex)
         self.tex_path = output_path
         logger.info(f"[SUCCESS] {self.template_path} rendered to {self.tex_path}")
@@ -221,10 +230,9 @@ class DocumentGenerator(object):
             isinstance(precontext, dict) or precontext is None
         ), f"Please provide a valid precontext. Received {precontext}."
         assert (
-            isinstance(output_path, pl.Path) and output_path.suffix == ".pdf"
-        ) or output_path is None, (
-            f"Please provide a valid output_path. Received {output_path}."
-        )
+            (isinstance(output_path, pl.Path) and output_path.suffix == ".pdf")
+            or output_path is None
+        ), f"Please provide a valid output_path. Received {output_path}."
         assert isinstance(overwrite, bool)
 
         if not output_path:
@@ -238,13 +246,13 @@ class DocumentGenerator(object):
             # For safety, we should run pdflatex in the output directory
             compile_dir = self.output_dir
             tex_filename = self.tex_path.name
-            command = ['pdflatex', '-interaction=nonstopmode', tex_filename]
+            command = ["pdflatex", "-interaction=nonstopmode", tex_filename]
             # Run the command in the compile_dir
             result = subprocess.run(
                 command,
                 cwd=str(compile_dir),
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+                stderr=subprocess.PIPE,
             )
             if result.returncode != 0:
                 logger.error(f"[ERROR] pdflatex compilation failed.")
@@ -263,6 +271,7 @@ class DocumentGenerator(object):
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.template_path}, {self.output_dir}, {self.context})"
 
+
 class CoverGenerator(DocumentGenerator):
     def processContext(self, context: dict) -> dict:
         assert isinstance(context, dict)
@@ -276,11 +285,14 @@ class CoverGenerator(DocumentGenerator):
         for reading in context.get("core_readings", []):
             reading["title_text"] = reading["title"]
             reading["title_color"] = context.get("color_primary_faded", "black")
-            reading["subsection_text"] = f"({reading['subsection']})" if reading.get("subsection") else ""
+            reading["subsection_text"] = (
+                f"({reading['subsection']})" if reading.get("subsection") else ""
+            )
             reading["subsection_color"] = context.get("color_primary_faded", "black")
             reading["author_year_text"] = f"({reading['author']}, {reading['year']})"
             reading["author_year_color"] = context.get("color_primary_faded", "black")
         return context
+
 
 class FurtherGenerator(DocumentGenerator):
     def processContext(self, context: dict) -> dict:
@@ -326,13 +338,16 @@ class FurtherGenerator(DocumentGenerator):
                     thumbnail_src = pl.Path(reading["thumbnail_path"])
                     thumbnail_dst = self.output_dir / thumbnail_src.name
                     shutil.copy(thumbnail_src, thumbnail_dst)
-                    reading["thumbnail_path"] = thumbnail_dst.name  # Relative to output_dir
+                    reading["thumbnail_path"] = (
+                        thumbnail_dst.name
+                    )  # Relative to output_dir
             else:
                 reading["truncated_url"] = ""
                 reading["qr_code_path"] = ""
                 reading["thumbnail_path"] = ""
 
         return context
+
 
 class GuideGenerator(DocumentGenerator):
     def processContext(self, context: dict) -> dict:
@@ -342,6 +357,7 @@ class GuideGenerator(DocumentGenerator):
         shutil.copy(logo_src, logo_dst)
         context["logo_path"] = logo_dst.name  # Relative to output_dir
         return context
+
 
 class DeviceReadingGenerator(DocumentGenerator):
     def processContext(self, context: dict) -> dict:
@@ -395,6 +411,7 @@ class DeviceReadingGenerator(DocumentGenerator):
             reading["thumbnail_path"] = ""
 
         return context
+
 
 if __name__ == "__main__":
     # Example usage
