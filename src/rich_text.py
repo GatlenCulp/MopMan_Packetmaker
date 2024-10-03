@@ -6,31 +6,11 @@ import pathlib as pl
 from src.airtable_api import getPrecontextForCurriculum
 import json
 from src.template_factory import makeIDFromTitle
-
-# Word must be installed for this to work!!
-import docx2pdf
-from pypdf import PdfWriter
-from src.add_footer2pdf import add_footer_to_pdf
 from src.DocumentGenerator import (
     DocumentGenerator,
-    CoverGenerator,
-    FurtherGenerator,
-    GuideGenerator,
     logger,
 )
-from docxtpl import DocxTemplate, InlineImage, RichText
-from docx.shared import Cm
-from copy import deepcopy
-import pathlib as pl
-import logging
-from typing import Callable, Dict
-import docx2pdf
-from src.template_factory import (
-    makeIDFromTitle,
-    makeQRCode,
-    get_favicon_from_website,
-)
-import urllib
+from docxtpl import RichText
 
 
 class CoverTestGenerator(DocumentGenerator):
