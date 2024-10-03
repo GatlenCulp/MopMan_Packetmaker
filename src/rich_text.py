@@ -1,17 +1,17 @@
 # https://jinja.palletsprojects.com/en/3.1.x/templates/#line-statements
 # from precontexts.gov4_precontext import gov4_precontext as precontext
-from scripts.template_factory import adjustLogo
+from src.template_factory import adjustLogo
 from copy import deepcopy
 import pathlib as pl
-from scripts.airtable_api import getPrecontextForCurriculum
+from src.airtable_api import getPrecontextForCurriculum
 import json
-from scripts.template_factory import makeIDFromTitle
+from src.template_factory import makeIDFromTitle
 
 # Word must be installed for this to work!!
 import docx2pdf
 from pypdf import PdfWriter
-from scripts.add_footer2pdf import add_footer_to_pdf
-from scripts.DocumentGenerator import (
+from src.add_footer2pdf import add_footer_to_pdf
+from src.DocumentGenerator import (
     DocumentGenerator,
     CoverGenerator,
     FurtherGenerator,
@@ -25,7 +25,7 @@ import pathlib as pl
 import logging
 from typing import Callable, Dict
 import docx2pdf
-from scripts.template_factory import (
+from src.template_factory import (
     makeIDFromTitle,
     makeQRCode,
     get_favicon_from_website,

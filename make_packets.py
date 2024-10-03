@@ -1,14 +1,14 @@
 # https://jinja.palletsprojects.com/en/3.1.x/templates/#line-statements
 # from precontexts.gov4_precontext import gov4_precontext as precontext
-from scripts.template_factory import adjustLogo
+from src.template_factory import adjustLogo
 from copy import deepcopy
 import pathlib as pl
-from scripts.airtable_api import getPrecontextForCurriculum
+from src.airtable_api import getPrecontextForCurriculum
 import json
-from scripts.template_factory import makeIDFromTitle
+from src.template_factory import makeIDFromTitle
 from pypdf import PdfWriter
-from scripts.add_footer2pdf import add_footer_to_pdf
-from scripts.DocumentGenerator import (
+from src.add_footer2pdf import add_footer_to_pdf
+from src.DocumentGenerator import (
     CoverGenerator,
     FurtherGenerator,
     GuideGenerator,
@@ -31,7 +31,7 @@ with open("config.json", "r") as config_file:
 
 
 def mergePdfs(
-    pdf_paths: list, output_path: pl.Path, merge_on_odd: bin = True
+    pdf_paths: list, output_path: pl.Path, merge_on_odd: bool = True
 ) -> pl.Path:
     assert isinstance(pdf_paths, list)
     assert all([isinstance(path, pl.Path) for path in pdf_paths])

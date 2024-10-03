@@ -1,12 +1,6 @@
-# from docx import Document
-from docxtpl import DocxTemplate, InlineImage
-from docx.shared import Cm, Inches, Mm, Emu
 from PIL import Image, ImageChops
-from copy import deepcopy
-import urllib.parse
 import qrcode
-from scripts.favicon_downloader import get_favicon_from_website
-import re
+from src.favicon_downloader import get_favicon_from_website
 import pathlib as pl
 
 

@@ -4,11 +4,10 @@ from docx.shared import Cm
 from copy import deepcopy
 import pathlib as pl
 import logging
-from typing import Callable, Dict
 
 # Word must be installed for this to work!!
 import docx2pdf
-from scripts.template_factory import (
+from src.template_factory import (
     makeIDFromTitle,
     makeQRCode,
     get_favicon_from_website,

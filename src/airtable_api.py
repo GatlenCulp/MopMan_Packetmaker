@@ -1,7 +1,7 @@
 from airtable import airtable
 import requests
 import pathlib as pl
-from scripts.template_factory import makeIDFromTitle
+from src.template_factory import makeIDFromTitle
 import json
 import dotenv
 

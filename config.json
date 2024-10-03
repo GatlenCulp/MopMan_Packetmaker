@@ -294,7 +294,7 @@
         }
     },
     "generate": {
-        "cover": false,
+        "cover": true,
         "device_readings": true,
         "further_readings": true,
         "packet": true,

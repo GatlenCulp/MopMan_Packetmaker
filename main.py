@@ -1,15 +1,15 @@
 # https://jinja.palletsprojects.com/en/3.1.x/templates/#line-statements
 # from precontexts.gov4_precontext import gov4_precontext as precontext
-from scripts.template_factory import adjustLogo
+from src.template_factory import adjustLogo
 from copy import deepcopy
 import pathlib as pl
-from scripts.airtable_api import getPrecontextForCurriculum
+from src.airtable_api import getPrecontextForCurriculum
 import json
-from scripts.template_factory import makeIDFromTitle
+from src.template_factory import makeIDFromTitle
 from pypdf import PdfWriter
-from scripts.add_footer2pdf import add_footer_to_pdf
+from src.add_footer2pdf import add_footer_to_pdf
 import os
-from scripts.DocumentGenerator import (
+from src.DocumentGenerator import (
     CoverGenerator,
     FurtherGenerator,
     GuideGenerator,
