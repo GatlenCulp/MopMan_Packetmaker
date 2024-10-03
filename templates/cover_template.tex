@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{fontspec} % For using system fonts (if needed)
+\setmainfont{Arial} % Set your preferred font
+
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+
+% Header
+\fancyhead[L]{% Left side of header
+    \includegraphics[height=2cm]{ {{ logo }} }
+}
+\fancyhead[C]{% Center of header
+    \Large\textbf{ {{ program_long_name | latex_escape }} }
+}
+\fancyhead[R]{% Right side of header
+    \Large\textbf{ {{ time_period | latex_escape }} } \\
+    \Large\textbf{ [ {{ chron_info.upper() | latex_escape }} ] }
+}
+
+% Title
+\title{
+    \vspace{-2cm} % Adjust spacing as needed
+    \Huge\textbf{ {{ title | latex_escape }} } \\
+    \vspace{0.5cm}
+    \Large\textbf{ {{ subtitle.upper() | latex_escape }} }
+}
+
+% Footer
+\fancyfoot[C]{% Center of footer
+    \begin{tabularx}{\textwidth}{X}
+        {% for reading in core_readings %}
+            \textbf{ {{ reading.title | latex_escape }} } \\
+            {% if reading.subsection %}
+                \textit{ {{ reading.subsection | latex_escape }} } \\
+            {% endif %}
+            {{ reading.author_year | latex_escape }} \\
+            \\
+        {% endfor %}
+    \end{tabularx}
+}
+
+\begin{document}
+
+\maketitle
+
+% You can add more content here if needed
+
+\end{document}
