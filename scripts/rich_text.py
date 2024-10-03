@@ -6,11 +6,18 @@ import pathlib as pl
 from scripts.airtable_api import getPrecontextForCurriculum
 import json
 from scripts.template_factory import makeIDFromTitle
+
 # Word must be installed for this to work!!
 import docx2pdf
 from pypdf import PdfWriter
 from scripts.add_footer2pdf import add_footer_to_pdf
-from scripts.DocumentGenerator import DocumentGenerator, CoverGenerator, FurtherGenerator, GuideGenerator, logger
+from scripts.DocumentGenerator import (
+    DocumentGenerator,
+    CoverGenerator,
+    FurtherGenerator,
+    GuideGenerator,
+    logger,
+)
 from docxtpl import DocxTemplate, InlineImage, RichText
 from docx.shared import Cm
 from copy import deepcopy
@@ -18,7 +25,11 @@ import pathlib as pl
 import logging
 from typing import Callable, Dict
 import docx2pdf
-from scripts.template_factory import makeIDFromTitle, makeQRCode, get_favicon_from_website
+from scripts.template_factory import (
+    makeIDFromTitle,
+    makeQRCode,
+    get_favicon_from_website,
+)
 import urllib
 
 
@@ -26,21 +37,24 @@ class CoverTestGenerator(DocumentGenerator):
     def processContext(self, context: dict) -> dict:
         assert isinstance(context, dict)
         print(context["color_primary"])
-        context['title'] = RichText("Test Title", color=context["color_primary_faded"])
+        context["title"] = RichText("Test Title", color=context["color_primary_faded"])
         return context
 
-def getPrecontext(curriculum_id, output_dir, option_num:int=1) -> dict:
+
+def getPrecontext(curriculum_id, output_dir, option_num: int = 1) -> dict:
     if option_num == 1:
-        precontext = getPrecontextForCurriculum(curriculum_id, output_dir/pl.Path("precontext"))
+        precontext = getPrecontextForCurriculum(
+            curriculum_id, output_dir / pl.Path("precontext")
+        )
         return precontext
     elif option_num == 2:
         precontext_path = "/Users/hugz/Library/CloudStorage/OneDrive-Personal/Desktop/7x Work-Projects/71 MS Word Automation/precontexts/test1/aisf_ml_meeting_5__model_internals/precontext.json"
         with open(precontext_path, "r") as f:
             precontext = json.load(f)
         return precontext
-    
 
-def main(curriculum_id:str, output_dir:pl.Path=pl.Path("./output/")) -> None:
+
+def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None:
     assert isinstance(curriculum_id, str)
     assert isinstance(output_dir, pl.Path)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -54,12 +68,17 @@ def main(curriculum_id:str, output_dir:pl.Path=pl.Path("./output/")) -> None:
     print("\n")
     logger.info("Fixing logo...")
     precontext = deepcopy(precontext)
-    logo_path = pl.Path(precontext['logo_path'])
-    precontext['logo_path'] = str(adjustLogo(logo_path, output_path=output_dir))
+    logo_path = pl.Path(precontext["logo_path"])
+    precontext["logo_path"] = str(adjustLogo(logo_path, output_path=output_dir))
     logger.info(f"[SUCCESS] logo fixed. {precontext['logo_path']}")
 
     # Generate Cover
-    cover = CoverTestGenerator(pl.Path("templates/Cover Page Template.docx"), output_dir/pl.Path("Cover"), precontext, overwrite=True)
+    cover = CoverTestGenerator(
+        pl.Path("templates/Cover Page Template.docx"),
+        output_dir / pl.Path("Cover"),
+        precontext,
+        overwrite=True,
+    )
 
 
 if __name__ == "__main__":
@@ -68,4 +87,7 @@ if __name__ == "__main__":
         "Orchid Meeting 5": "rec1fJFpgwmLA7V5T",
     }
     curriculum = "AISF ML Meeting 5"
-    main(curriculum_ids[curriculum], output_dir=pl.Path("./output")/pl.Path(makeIDFromTitle("covertest")))
+    main(
+        curriculum_ids[curriculum],
+        output_dir=pl.Path("./output") / pl.Path(makeIDFromTitle("covertest")),
+    )

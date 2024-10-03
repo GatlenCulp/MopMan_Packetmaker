@@ -11,17 +11,24 @@ from reportlab.pdfgen import canvas
 # Width: 612 points (8.5 inches * 72 points per inch)
 # Height: 792 points (11 inches * 72 points per inch)
 
-def create_footer_pdf(num_pages:int, footer_text="AISF Readings — Page {i} of {n}", font_name="Helvetica", font_size=8, skip_pages=[1,2]) -> PdfReader:
+
+def create_footer_pdf(
+    num_pages: int,
+    footer_text="AISF Readings — Page {i} of {n}",
+    font_name="Helvetica",
+    font_size=8,
+    skip_pages=[1, 2],
+) -> PdfReader:
     assert isinstance(num_pages, int)
     packet = io.BytesIO()
     c = canvas.Canvas(packet, pagesize=letter)
     c.setFont(font_name, font_size)
 
     for i in range(num_pages):
-        if i not in list(map(lambda j: j-1, skip_pages)):
-            footer = footer_text.format(i=i+1, n=num_pages)
+        if i not in list(map(lambda j: j - 1, skip_pages)):
+            footer = footer_text.format(i=i + 1, n=num_pages)
             footer_width = c.stringWidth(footer, font_name, font_size)
-            footer_object = c.beginText((letter[0] - footer_width)/2, 20)
+            footer_object = c.beginText((letter[0] - footer_width) / 2, 20)
             footer_object.setFont(font_name, font_size)
             footer_object.textOut(footer)
             c.drawText(footer_object)
@@ -30,10 +37,15 @@ def create_footer_pdf(num_pages:int, footer_text="AISF Readings — Page {i} of 
     packet.seek(0)
     return PdfReader(packet)
 
-def add_footer_to_pdf(input_pdf_path: pl.Path, output_pdf_path: pl.Path, footer_text:str="AISF Readings — Page {i} of {n}") -> pl.Path:
+
+def add_footer_to_pdf(
+    input_pdf_path: pl.Path,
+    output_pdf_path: pl.Path,
+    footer_text: str = "AISF Readings — Page {i} of {n}",
+) -> pl.Path:
     assert isinstance(input_pdf_path, pl.Path)
     assert isinstance(output_pdf_path, pl.Path)
-    
+
     # Create footer pdf
     pdf_reader = PdfReader(open(str(input_pdf_path), "rb"))
     num_pages = len(pdf_reader.pages)
@@ -51,10 +63,13 @@ def add_footer_to_pdf(input_pdf_path: pl.Path, output_pdf_path: pl.Path, footer_
     # Write the pages to a new PDF file
     with open(str(output_pdf_path), "wb") as f_out:
         pdf_writer.write(f_out)
-    
+
     return output_pdf_path
+
 
 if __name__ == "__main__":
     input_pdf_path = pl.Path("output/test1/aisf_ml_meeting_5__model_internals.pdf")
-    output_pdf_path = pl.Path("output/test1/FOOTER aisf_ml_meeting_5__model_internals.pdf")
+    output_pdf_path = pl.Path(
+        "output/test1/FOOTER aisf_ml_meeting_5__model_internals.pdf"
+    )
     add_footer_to_pdf(input_pdf_path, output_pdf_path)

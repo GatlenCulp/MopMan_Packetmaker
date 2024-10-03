@@ -9,7 +9,6 @@ charset-normalizer==3.3.2
 docx2pdf==0.1.8
 docxcompose==1.4.0
 docxtpl==0.16.8
-dotenv==0.0.5
 fire==0.6.0
 fonttools==4.50.0
 idna==3.6

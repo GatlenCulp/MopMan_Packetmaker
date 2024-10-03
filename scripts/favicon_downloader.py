@@ -4,6 +4,7 @@ import urllib.parse
 from PIL import Image
 import pathlib as pl
 
+
 def get_favicon_url(base_url, soup):
     # Find the favicon link in the HTML
     favicon_url = None
@@ -28,6 +29,7 @@ def get_favicon_url(base_url, soup):
 
     return favicon_url
 
+
 def download_favicon(favicon_url, output_path):
     try:
         # Send a GET request to the favicon URL
@@ -45,9 +47,10 @@ def download_favicon(favicon_url, output_path):
     except Exception as e:
         print("An error occurred:", str(e))
 
-def get_favicon_from_website(url, output_path:pl.Path=pl.Path("./")) -> pl.Path:
+
+def get_favicon_from_website(url, output_path: pl.Path = pl.Path("./")) -> pl.Path:
     assert isinstance(output_path, pl.Path)
-    output_path = pl.Path(output_path) # todo: use pl.Path instead lol
+    output_path = pl.Path(output_path)  # todo: use pl.Path instead lol
     try:
         # Send a GET request to the website
         response = requests.get(url)
@@ -58,7 +61,11 @@ def get_favicon_from_website(url, output_path:pl.Path=pl.Path("./")) -> pl.Path:
             soup = BeautifulSoup(response.text, "html.parser")
 
             # Get the base URL
-            base_url = urllib.parse.urlparse(url).scheme + "://" + urllib.parse.urlparse(url).hostname
+            base_url = (
+                urllib.parse.urlparse(url).scheme
+                + "://"
+                + urllib.parse.urlparse(url).hostname
+            )
 
             # Get the favicon URL
             favicon_url = get_favicon_url(base_url, soup)
@@ -71,6 +78,7 @@ def get_favicon_from_website(url, output_path:pl.Path=pl.Path("./")) -> pl.Path:
             return None
     except Exception as e:
         print("An error occurred:", str(e))
+
 
 # Example usage:
 if __name__ == "__main__":

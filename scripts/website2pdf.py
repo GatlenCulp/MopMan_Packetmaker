@@ -15,21 +15,22 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class PdfGenerator:
     """
-     Simple use case:
+    Simple use case:
 
-        pdf_file = PdfGenerator(['https://google.com']).main()
-        with open('new_pdf.pdf', "wb") as outfile:
-            outfile.write(pdf_file[0].getbuffer())
+       pdf_file = PdfGenerator(['https://google.com']).main()
+       with open('new_pdf.pdf', "wb") as outfile:
+           outfile.write(pdf_file[0].getbuffer())
     """
+
     driver = None
     # https://chromedevtools.github.io/devtools-protocol/tot/Page#method-printToPDF
     print_options = {
-        'landscape': False,
-        'displayHeaderFooter': False,
-        'printBackground': True,
-        'preferCSSPageSize': True,
-        'paperWidth': 6.97,
-        'paperHeight': 16.5,
+        "landscape": False,
+        "displayHeaderFooter": False,
+        "printBackground": True,
+        "preferCSSPageSize": True,
+        "paperWidth": 6.97,
+        "paperHeight": 16.5,
     }
 
     def __init__(self, urls: List[str]):
@@ -42,7 +43,7 @@ class PdfGenerator:
 
         print_options = self.print_options.copy()
         result = self._send_devtools(self.driver, "Page.printToPDF", print_options)
-        return base64.b64decode(result['data'])
+        return base64.b64decode(result["data"])
 
     @staticmethod
     def _send_devtools(driver, cmd, params):
@@ -50,11 +51,13 @@ class PdfGenerator:
         Works only with chromedriver.
         Method uses cromedriver's api to pass various commands to it.
         """
-        resource = "/session/%s/chromium/send_command_and_get_result" % driver.session_id
+        resource = (
+            "/session/%s/chromium/send_command_and_get_result" % driver.session_id
+        )
         url = driver.command_executor._url + resource
-        body = json.dumps({'cmd': cmd, 'params': params})
-        response = driver.command_executor._request('POST', url, body)
-        return response.get('value')
+        body = json.dumps({"cmd": cmd, "params": params})
+        response = driver.command_executor._request("POST", url, body)
+        return response.get("value")
 
     def _generate_pdfs(self):
         pdf_files = []
@@ -69,8 +72,8 @@ class PdfGenerator:
 
     def main(self) -> List[BytesIO]:
         webdriver_options = ChromeOptions()
-        webdriver_options.add_argument('--headless')
-        webdriver_options.add_argument('--disable-gpu')
+        webdriver_options.add_argument("--headless")
+        webdriver_options.add_argument("--disable-gpu")
 
         try:
             self.driver = webdriver.Chrome(
@@ -82,9 +85,12 @@ class PdfGenerator:
             self.driver.close()
 
         return result
-    
-if __name__ == '__main__':
-    pdf_file = PdfGenerator(['https://blog.heim.xyz/presentation-on-introduction-to-compute-governance/']).main()
+
+
+if __name__ == "__main__":
+    pdf_file = PdfGenerator(
+        ["https://blog.heim.xyz/presentation-on-introduction-to-compute-governance/"]
+    ).main()
     # save pdf to file
-    with open('medium_site.pdf', "wb") as outfile:
+    with open("medium_site.pdf", "wb") as outfile:
         outfile.write(pdf_file[0].getbuffer())
