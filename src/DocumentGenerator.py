@@ -1,4 +1,3 @@
-# from docx import Document
 from docxtpl import DocxTemplate, InlineImage, RichText
 from docx.shared import Cm
 from copy import deepcopy
@@ -10,8 +9,8 @@ import docx2pdf
 from src.template_factory import (
     makeIDFromTitle,
     makeQRCode,
-    get_favicon_from_website,
 )
+from src.favicon_downloader import get_favicon_from_website
 import urllib
 import json
 

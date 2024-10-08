@@ -1,12 +1,12 @@
-from PIL import Image, ImageChops
+from pathlib import Path
+
 import qrcode
-from src.favicon_downloader import get_favicon_from_website
-import pathlib as pl
+from PIL import Image, ImageChops
 
 
-def adjustLogo(logo_path: pl.Path, output_path: pl.Path = pl.Path("./")) -> pl.Path:
-    assert isinstance(logo_path, pl.Path)
-    assert isinstance(output_path, pl.Path)
+def adjustLogo(logo_path: Path, output_path: Path = Path("./")) -> Path:
+    assert isinstance(logo_path, Path)
+    assert isinstance(output_path, Path)
 
     def trim(im):
         bg = Image.new(im.mode, im.size, im.getpixel((0, 0)))
@@ -21,16 +21,17 @@ def adjustLogo(logo_path: pl.Path, output_path: pl.Path = pl.Path("./")) -> pl.P
     else:
         im = Image.open(str(logo_path))
         im = trim(im)
-        cropped_logo_path = output_path / pl.Path(
+        cropped_logo_path = output_path / Path(
             f"{logo_path.stem}_cropped{logo_path.suffix}"
         )
+        assert im is not None
         im.save(str(cropped_logo_path))
         return cropped_logo_path
 
 
 ## Make QRCode
-def makeQRCode(url: str, title: str, output_path: pl.Path = pl.Path("./")) -> pl.Path:
-    assert isinstance(output_path, pl.Path)
+def makeQRCode(url: str, title: str, output_path: Path = Path("./")) -> Path:
+    assert isinstance(output_path, Path)
 
     qr = qrcode.QRCode(
         version=5,
@@ -42,7 +43,7 @@ def makeQRCode(url: str, title: str, output_path: pl.Path = pl.Path("./")) -> pl
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="black", back_color="white")
-    path = output_path / pl.Path(f"{title} QRCode.png")
+    path = output_path / Path(f"{title} QRCode.png")
     img.save(str(path))
     return path
 

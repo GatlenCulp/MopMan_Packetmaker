@@ -1,16 +1,17 @@
 # https://jinja.palletsprojects.com/en/3.1.x/templates/#line-statements
 # from precontexts.gov4_precontext import gov4_precontext as precontext
-from src.template_factory import adjustLogo
-from copy import deepcopy
-import pathlib as pl
-from src.airtable_api import getPrecontextForCurriculum
 import json
-from src.template_factory import makeIDFromTitle
+from copy import deepcopy
+from pathlib import Path
+
+from docxtpl import RichText
+
+from src.airtable_api import getPrecontextForCurriculum
 from src.DocumentGenerator import (
     DocumentGenerator,
     logger,
 )
-from docxtpl import RichText
+from src.template_factory import adjustLogo, makeIDFromTitle
 
 
 class CoverTestGenerator(DocumentGenerator):
@@ -24,7 +25,7 @@ class CoverTestGenerator(DocumentGenerator):
 def getPrecontext(curriculum_id, output_dir, option_num: int = 1) -> dict:
     if option_num == 1:
         precontext = getPrecontextForCurriculum(
-            curriculum_id, output_dir / pl.Path("precontext")
+            curriculum_id, output_dir / Path("precontext")
         )
         return precontext
     elif option_num == 2:
@@ -34,9 +35,9 @@ def getPrecontext(curriculum_id, output_dir, option_num: int = 1) -> dict:
         return precontext
 
 
-def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None:
+def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     assert isinstance(curriculum_id, str)
-    assert isinstance(output_dir, pl.Path)
+    assert isinstance(output_dir, Path)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("\n")
@@ -48,14 +49,14 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
     print("\n")
     logger.info("Fixing logo...")
     precontext = deepcopy(precontext)
-    logo_path = pl.Path(precontext["logo_path"])
+    logo_path = Path(precontext["logo_path"])
     precontext["logo_path"] = str(adjustLogo(logo_path, output_path=output_dir))
     logger.info(f"[SUCCESS] logo fixed. {precontext['logo_path']}")
 
     # Generate Cover
     cover = CoverTestGenerator(
-        pl.Path("templates/Cover Page Template.docx"),
-        output_dir / pl.Path("Cover"),
+        Path("templates/Cover Page Template.docx"),
+        output_dir / Path("Cover"),
         precontext,
         overwrite=True,
     )
@@ -69,5 +70,5 @@ if __name__ == "__main__":
     curriculum = "AISF ML Meeting 5"
     main(
         curriculum_ids[curriculum],
-        output_dir=pl.Path("./output") / pl.Path(makeIDFromTitle("covertest")),
+        output_dir=Path("./output") / Path(makeIDFromTitle("covertest")),
     )

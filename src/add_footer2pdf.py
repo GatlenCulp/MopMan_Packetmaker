@@ -4,10 +4,6 @@ import io
 import pathlib as pl
 from reportlab.pdfgen import canvas
 
-# Todo: Add futura as a font for the footer
-# from reportlab.pdfbase import ttfonts, pdfmetrics
-# pdfmetrics.registerFont(ttfonts.TTFont("Futura", "SomeFontFile.ttf"))
-
 # Width: 612 points (8.5 inches * 72 points per inch)
 # Height: 792 points (11 inches * 72 points per inch)
 

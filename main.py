@@ -1,23 +1,21 @@
-# https://jinja.palletsprojects.com/en/3.1.x/templates/#line-statements
-# from precontexts.gov4_precontext import gov4_precontext as precontext
-from src.template_factory import adjustLogo
-from copy import deepcopy
-import pathlib as pl
-from src.airtable_api import getPrecontextForCurriculum
 import json
-from src.template_factory import makeIDFromTitle
-from pypdf import PdfWriter
-from src.add_footer2pdf import add_footer_to_pdf
 import os
+import subprocess
+from copy import deepcopy
+from pathlib import Path
+
+from pypdf import PdfWriter
+
+from src.add_footer2pdf import add_footer_to_pdf
+from src.airtable_api import getPrecontextForCurriculum
 from src.DocumentGenerator import (
     CoverGenerator,
+    DeviceReadingGenerator,
     FurtherGenerator,
     GuideGenerator,
-    DeviceReadingGenerator,
     logger,
 )
-import subprocess
-
+from src.template_factory import adjustLogo, makeIDFromTitle
 
 config = json.load(open("config.json", "r"))
 
@@ -35,21 +33,11 @@ if not check_permissions(config["output_dir"]):
         f"Insufficient permissions for output directory: {config["output_dir"]}"
     )
 
-# def convertToPdf(path: pl.Path) -> pl.Path:
-#     assert isinstance(path, pl.Path)
-#     docx2pdf.convert(
-#         str(path),
-#         str(path.with_suffix(".pdf"))
-#     )
-#     return path.with_suffix(".pdf")
 
-
-def mergePdfs(
-    pdf_paths: list, output_path: pl.Path, merge_on_odd: bool = True
-) -> pl.Path:
+def mergePdfs(pdf_paths: list, output_path: Path, merge_on_odd: bool = True) -> Path:
     assert isinstance(pdf_paths, list)
-    assert all([isinstance(path, pl.Path) for path in pdf_paths])
-    assert isinstance(output_path, pl.Path)
+    assert all([isinstance(path, Path) for path in pdf_paths])
+    assert isinstance(output_path, Path)
     pdf_writer = PdfWriter()
     for pdf in pdf_paths:
         if not pdf:
@@ -62,23 +50,19 @@ def mergePdfs(
     return output_path
 
 
-def getPrecontext(curriculum_id, output_dir, option_num: int = 1) -> dict:
+def getPrecontext(curriculum_id: str, output_dir: Path, option_num: int = 1) -> dict:
     if option_num == 1:
         precontext = getPrecontextForCurriculum(
-            curriculum_id, output_dir / pl.Path("precontext")
+            curriculum_id, output_dir / Path("precontext")
         )
         return precontext
     elif option_num == 2:
         raise NotImplementedError("Option 2 not implemented")
-        # precontext_path = "/Users/hugz/Library/CloudStorage/OneDrive-Personal/Desktop/7x Work-Projects/71 MS Word Automation/precontexts/test1/aisf_ml_meeting_5__model_internals/precontext.json"
-        # with open(precontext_path, "r") as f:
-        #     precontext = json.load(f)
-        # return precontext
 
 
-def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None:
+def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     assert isinstance(curriculum_id, str)
-    assert isinstance(output_dir, pl.Path)
+    assert isinstance(output_dir, Path)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("\n")
@@ -90,7 +74,7 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
     print("\n")
     logger.info("Fixing logo...")
     precontext = deepcopy(precontext)
-    logo_path = pl.Path(precontext["logo_path"])
+    logo_path = Path(precontext["logo_path"])
     precontext["logo_path"] = str(adjustLogo(logo_path, output_path=output_dir))
     logger.info(f"[SUCCESS] logo fixed. {precontext['logo_path']}")
 
@@ -98,17 +82,13 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
     cover_pdf_path = None
     if config["generate"]["cover"]:
         cover = CoverGenerator(
-            pl.Path(config["templates"]["cover"]),
-            output_dir / pl.Path("Cover"),
+            Path(config["templates"]["cover"]),
+            output_dir / Path("Cover"),
             precontext,
             overwrite=True,
         )
         cover_pdf_path = cover.pdf_path
 
-    # TODO: Fix this, word is giving an error
-    # 2024-02-11 16:52:33,198 - MopMan - ERROR - [ERROR] output/aisst_intro_fellowship_spring_2024_meeting_0__introduction_to_machine_learning_optional/Device Readings/but_what_is_a_neural_network/but_what_is_a_neural_network.docx could not be converted to pdf at output/aisst_intro_fellowship_spring_2024_meeting_0__introduction_to_machine_learning_optional/Device Readings/but_what_is_a_neural_network/but_what_is_a_neural_network.pdf (DocumentGenerator.py:156)
-    # 2024-02-11 16:52:33,199 - MopMan - ERROR - 1 (DocumentGenerator.py:157)
-    # Very odd, error only seems to occur for AISST readings
     ## Generate Device Readings QR Code pages if needed
     if config["generate"]["device_readings"]:
         for reading in precontext["core_readings"]:
@@ -121,9 +101,9 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
             logger.info(f"Generating device reading for {reading['title']}...")
             precontext["device_reading"] = reading
             device_reading = DeviceReadingGenerator(
-                pl.Path(config["templates"]["device_reading"]),
+                Path(config["templates"]["device_reading"]),
                 output_dir
-                / pl.Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
+                / Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
                 precontext,
                 overwrite=True,
             )
@@ -134,8 +114,8 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
     further_pdf_path = None
     if precontext["further_readings"] and config["generate"]["further_readings"]:
         further = FurtherGenerator(
-            pl.Path(config["templates"]["further_reading"]),
-            output_dir / pl.Path("Further"),
+            Path(config["templates"]["further_reading"]),
+            output_dir / Path("Further"),
             precontext,
             overwrite=True,
         )
@@ -148,14 +128,14 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
             "Merging cover, core readings, and further reading page into packet..."
         )
         reading_pdf_paths = [
-            pl.Path(reading["trimmed_pdf"]) for reading in precontext["core_readings"]
+            Path(reading["trimmed_pdf"]) for reading in precontext["core_readings"]
         ]
         packet_path = mergePdfs(
             ([cover_pdf_path] if cover_pdf_path else [])
             + reading_pdf_paths
             + ([further_pdf_path] if further_pdf_path else []),
             output_path=output_dir
-            / pl.Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
+            / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
         )
         packet_path = add_footer_to_pdf(
             packet_path,
@@ -168,29 +148,29 @@ def main(curriculum_id: str, output_dir: pl.Path = pl.Path("./output/")) -> None
     if config["generate"]["tas_guides"]:
         print("\n")
         logger.info("Generating TA guides. This may take a while...")
-        guide_template_path = pl.Path(config["templates"]["tas_guide"])
-        ta_guide_output_dir = output_dir / pl.Path("TA Guides")
+        guide_template_path = Path(config["templates"]["tas_guide"])
+        ta_guide_output_dir = output_dir / Path("TA Guides")
         for cohort in precontext["cohorts"]:
             logger.info(f"Making {cohort['name']}")
             precontext["cohort"] = cohort
             guide_name = f'{makeIDFromTitle(precontext["cohort"]["name"])} n{precontext["cohort"]["num_members"]}'
-            guide_dir = ta_guide_output_dir / pl.Path(guide_name)
+            guide_dir = ta_guide_output_dir / Path(guide_name)
             guide = GuideGenerator(
                 guide_template_path, guide_dir, precontext, overwrite=True
             )
             meeting_ta_guide_pdf = (
-                [pl.Path(precontext["meeting_ta_guide_pdf"])]
+                [Path(precontext["meeting_ta_guide_pdf"])]
                 if precontext["meeting_ta_guide_pdf"]
                 else []
             )
             guide_pdfs = (
                 [guide.pdf_path]
                 + meeting_ta_guide_pdf
-                + [pl.Path(precontext["base_ta_guide_pdf"])]
+                + [Path(precontext["base_ta_guide_pdf"])]
             )
             guide_path = mergePdfs(
                 guide_pdfs,
-                output_path=ta_guide_output_dir / pl.Path(guide_name + ".pdf"),
+                output_path=ta_guide_output_dir / Path(guide_name + ".pdf"),
             )
             logger.info(f"[SUCCESS] {guide_path}")
         logger.info("[SUCCESS] All TA guides generated.")
@@ -200,8 +180,6 @@ if __name__ == "__main__":
     for curriculum, details in config["curriculum"].items():
         if details["make_packet"]:
             curriculum_id = details["record_id"]
-            output_dir = pl.Path(config["output_dir"]) / pl.Path(
-                makeIDFromTitle(curriculum)
-            )
+            output_dir = Path(config["output_dir"]) / Path(makeIDFromTitle(curriculum))
             main(curriculum_id, output_dir=output_dir)
             subprocess.call(["open", "-R", str(output_dir)])

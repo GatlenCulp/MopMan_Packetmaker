@@ -1,6 +1,6 @@
 from airtable import airtable
 import requests
-import pathlib as pl
+from pathlib import Path
 from src.template_factory import makeIDFromTitle
 import json
 import dotenv
@@ -42,7 +42,6 @@ at_map = {
     "global_cohort_i": "#️⃣ global_cohort_i",
     "num_members": "num_members",
     "packet_pdf": "📄 packet_pdf",
-    "trimmed_pdf": "📄 trimmed_pdf",
     "meeting_ta_guide_pdf": "📄 meeting_ta_guide_pdf",
     "base_ta_guide_pdf": "📄 base_ta_guide_pdf",
     "read_on_device": "read_on_device",
@@ -51,14 +50,14 @@ at_map = {
 
 
 def getPrecontextForCurriculum(
-    curriculum_id: str, output_dir: pl.Path = pl.Path("./precontexts")
+    curriculum_id: str, output_dir: Path = Path("./precontexts")
 ) -> dict:
     assert isinstance(curriculum_id, str)
-    assert isinstance(output_dir, pl.Path)
+    assert isinstance(output_dir, Path)
 
-    def save_from_airtable(url: str, file_path: pl.Path) -> pl.Path:
+    def save_from_airtable(url: str, file_path: Path) -> Path:
         assert isinstance(url, str)
-        assert isinstance(file_path, pl.Path)
+        assert isinstance(file_path, Path)
         assert file_path.suffix == ""
         file_path.parent.mkdir(parents=True, exist_ok=True)
         request = requests.get(url)
@@ -73,12 +72,12 @@ def getPrecontextForCurriculum(
     def getFromRecord(
         record: dict,
         field: str,
-        attachment_file_path: pl.Path = None,
+        attachment_file_path: Path | None = None,
         single_attachment: bool = True,
-    ):
+    ) -> str | list[str]:
         assert isinstance(record, dict)
         assert isinstance(field, str)
-        assert attachment_file_path is None or isinstance(attachment_file_path, pl.Path)
+        assert attachment_file_path is None or isinstance(attachment_file_path, Path)
         assert isinstance(single_attachment, bool)
         if at_map[field] not in record["fields"]:
             return ""
@@ -115,7 +114,7 @@ def getPrecontextForCurriculum(
                 reading,
                 "trimmed_pdf",
                 attachment_file_path=output_dir
-                / pl.Path(
+                / Path(
                     makeIDFromTitle(
                         getFromRecord(reading, "title")
                         + getFromRecord(reading, "subsection")
@@ -138,7 +137,7 @@ def getPrecontextForCurriculum(
     further_readings = [
         mopman.get(at_map["readings"], id) for id in further_reading_ids
     ]
-    thumbnail_dir = output_dir / pl.Path("thumbnails/")
+    thumbnail_dir = output_dir / Path("thumbnails/")
     thumbnail_dir.mkdir(parents=True, exist_ok=True)
     further_readings = [
         {
@@ -151,7 +150,7 @@ def getPrecontextForCurriculum(
             # "thumbnail_path": str(
             #     save_from_airtable(
             #         reading["fields"][at_map["thumbnail"]][0]["url"],
-            #         thumbnail_dir/pl.Path(f'{makeIDFromTitle(reading["fields"][at_map["title"]])}')
+            #         thumbnail_dir/Path(f'{makeIDFromTitle(reading["fields"][at_map["title"]])}')
             #     )
             # )
         }
@@ -184,7 +183,7 @@ def getPrecontextForCurriculum(
         "logo_path": getFromRecord(
             org,
             "logo_master_raster",
-            attachment_file_path=output_dir / pl.Path("logo"),
+            attachment_file_path=output_dir / Path("logo"),
             single_attachment=True,
         ),
         "program_long_name": getFromRecord(curriculum, "program_long_name")[0],
@@ -199,13 +198,13 @@ def getPrecontextForCurriculum(
         "meeting_ta_guide_pdf": getFromRecord(
             curriculum,
             "meeting_ta_guide_pdf",
-            attachment_file_path=output_dir / pl.Path("TA Guides/meeting_ta_guide"),
+            attachment_file_path=output_dir / Path("TA Guides/meeting_ta_guide"),
             single_attachment=True,
         ),
         "base_ta_guide_pdf": getFromRecord(
             org,
             "base_ta_guide_pdf",
-            attachment_file_path=output_dir / pl.Path("TA Guides/base_ta_guide"),
+            attachment_file_path=output_dir / Path("TA Guides/base_ta_guide"),
             single_attachment=True,
         ),
         "color_primary": getFromRecord(org, "color_primary"),
@@ -214,30 +213,22 @@ def getPrecontextForCurriculum(
     }
 
     ## Save Context
-    with open(output_dir / pl.Path("precontext.json"), "w") as outfile:
+    with open(output_dir / Path("precontext.json"), "w") as outfile:
         json.dump(precontext, outfile, indent=4)
 
     return precontext
 
 
-def upload_packet_to_curriculum(curriculum_id: str, packet_path: pl.Path) -> None:
+def upload_packet_to_curriculum(curriculum_id: str, packet_path: Path) -> None:
     assert isinstance(curriculum_id, str)
-    assert isinstance(packet_path, pl.Path)
+    assert isinstance(packet_path, Path)
 
-    return  # need to make an attachment object which means uploading the packet to some publically addressable URL. Too much work for now. Might be worth just uploading manually.
-
-    # with open(packet_path, "rb") as packet:
-    # mopman.update(at_map["curriculum"], curriculum_id, {
-    #     "fields": {
-    #         at_map["packet_pdf"]: packet
-    #     }
-    # })
+    return
 
 
 if __name__ == "__main__":
     target_curriculum_id = "reccFZa1fy2EV3qPI"
     precontext = getPrecontextForCurriculum(
-        target_curriculum_id, pl.Path("./precontexts/test1")
+        target_curriculum_id, Path("./precontexts/test1")
     )
     print(precontext)
-    # upload_packet_to_curriculum(target_curriculum_id, pl.Path("./output/test1/MAIA Cover Page Rendered.pdf"))

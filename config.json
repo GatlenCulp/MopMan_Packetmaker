@@ -1,303 +1,355 @@
 {
-    "templates": {
-        "cover": "templates/Cover Page Template.docx",
-        "device_reading": "templates/Device Reading.docx",
-        "further_reading": "templates/Further Reading.docx",
-        "tas_guide": "templates/TAs Guide.docx"
-    },
-    "error_pdf": "templates/ERROR.pdf",
-    "output_dir": "output/",
     "curriculum": {
+        "AISST AI Prediction Hackathon February 2024 Meeting 0 - Prerequisite Readings": {
+            "make_packet": false,
+            "record_id": "recr5cpGoM8Cm8byR"
+        },
         "AISST Intro Fellowship Spring 2024 Meeting 0 - Introduction to machine learning (optional)": {
-            "record_id": "reccJl6itaZXjjOHb",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "reccJl6itaZXjjOHb"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 1 - Reward misspecification, RLHF, and deception": {
-            "record_id": "recU9bm11auhEbxb1",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recU9bm11auhEbxb1"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 2 - Goals and goal misgeneralization": {
-            "record_id": "recWO4Gd0XUJFumFt",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recWO4Gd0XUJFumFt"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 3 - Current trajectory and risk stories": {
-            "record_id": "rechrP8xAc7OoBQnO",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rechrP8xAc7OoBQnO"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 4 - Mechanistic interpretability": {
-            "record_id": "recmMrdRNtceQcI1x",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recmMrdRNtceQcI1x"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 5 - Model internals": {
-            "record_id": "rece0XFZaiP6aORuW",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rece0XFZaiP6aORuW"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 6 - Scalable oversight": {
-            "record_id": "recp1UyHI2HbcAvpm",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recp1UyHI2HbcAvpm"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 7 - Red teaming": {
-            "record_id": "reccIbY85lcz5VZdl",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "reccIbY85lcz5VZdl"
         },
         "AISST Intro Fellowship Spring 2024 Meeting 8 - Policy, model evaluations, and careers in alignment": {
-            "record_id": "recLGAt5DcvQssi9P",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recLGAt5DcvQssi9P"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 1 - Introduction to machine learning and AI": {
-            "record_id": "recTNAdOQOszEsfKs",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recTNAdOQOszEsfKs"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 2 - Overview of risks from advanced AI systems": {
-            "record_id": "rec6olieB9HqJ5rAx",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec6olieB9HqJ5rAx"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 3 - Safety standards and regulations": {
-            "record_id": "recORIpIJsnZl0hGw",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recORIpIJsnZl0hGw"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 4 - AI audits and evaluations": {
-            "record_id": "recVn4xjpgTnZckvd",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recVn4xjpgTnZckvd"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 4 - Self and Corporate Governance": {
-            "record_id": "recXjxDvM5pWfhAJ3",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recXjxDvM5pWfhAJ3"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 5 - Compute governance": {
-            "record_id": "recrJ7k1JqKAebXSn",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recrJ7k1JqKAebXSn"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 6 - International approaches to AI regulation": {
-            "record_id": "recKHV7NonRIJqbzs",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recKHV7NonRIJqbzs"
         },
         "AISST Policy Fellowship Spring 2024 Meeting 7 - Other proposals, next steps, and careers": {
-            "record_id": "recFwHTB6i5Ie0UgI",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recFwHTB6i5Ie0UgI"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 1 - Reward Misspecification, RLHF, and Deception": {
+            "make_packet": true,
+            "record_id": "recilWlfhhHFsHRfK"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 2 - Goals and Goal Misgeneralization": {
+            "make_packet": false,
+            "record_id": "reccJbb0dawuhgEtJ"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 3 - Current Trajectory and Risk Stories": {
+            "make_packet": false,
+            "record_id": "recUeguy4iGk0tr95"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 4 - Mechanistic Interpretability": {
+            "make_packet": false,
+            "record_id": "recZxlpUftYEO10bU"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 5 - Control": {
+            "make_packet": false,
+            "record_id": "recF8i860pvQMdnjt"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 6 - Scalable Oversight and Weak-to-Strong Generalization": {
+            "make_packet": false,
+            "record_id": "recQvyWw2vhQnpAZv"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 7 - Red Teaming and Evaluations": {
+            "make_packet": false,
+            "record_id": "recF3HOkjNVzUShYq"
+        },
+        "AISST Intro Fellowship Fall 2024 Meeting 8 - Policy, Careers in Alignment": {
+            "make_packet": false,
+            "record_id": "receWbXj3rLKCpKKN"
         },
         "AISST Takeoffs Spring 2024 Meeting 1 - Intro": {
-            "record_id": "recA42wzlZr6tww8R",
-            "make_packet": false
-        },
-        "AISST AI Prediction Hackathon February 2024 Meeting 0 - Prerequisite Readings": {
-            "record_id": "recr5cpGoM8Cm8byR",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recA42wzlZr6tww8R"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 1": {
-            "record_id": "recmzjrcqEnsdUaZI",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recmzjrcqEnsdUaZI"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 2": {
-            "record_id": "recBOe41fvlmFsyA3",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recBOe41fvlmFsyA3"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 3": {
-            "record_id": "recIzUmC1FWjmDaZs",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recIzUmC1FWjmDaZs"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 4": {
-            "record_id": "rec0xpDkkfEtnAhec",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec0xpDkkfEtnAhec"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 5": {
-            "record_id": "rec1PQHRqbI03pfJC",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec1PQHRqbI03pfJC"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 6": {
-            "record_id": "rec3YwgqHVAnNIdSc",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec3YwgqHVAnNIdSc"
         },
         "CAIAC AISF Intro Policy Spring 2024 Meeting 7": {
-            "record_id": "rec5bvBA70NfOUnPk",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec5bvBA70NfOUnPk"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 1": {
-            "record_id": "rechZYbOGpGEgxWUS",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rechZYbOGpGEgxWUS"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 2": {
-            "record_id": "recJTGZbSt0pk7sL5",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recJTGZbSt0pk7sL5"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 3": {
-            "record_id": "recSvwsOwaKVkTrtx",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recSvwsOwaKVkTrtx"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 4": {
-            "record_id": "recNrMWq84TXhils5",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recNrMWq84TXhils5"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 5": {
-            "record_id": "rec8LvYR1zlbjxDxg",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec8LvYR1zlbjxDxg"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 6": {
-            "record_id": "recsHd7CcjUB5z6E6",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recsHd7CcjUB5z6E6"
         },
         "CAIAC AISF Intro Tech Spring 2024 Meeting 7": {
-            "record_id": "rec0UIJwNLowqybnF",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 0": {
-            "record_id": "recRJ7FzFzL5sD2LE",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 1": {
-            "record_id": "recJNPxFUBXvrAHVN",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 2": {
-            "record_id": "recBkKP8v8Xli6j23",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 3": {
-            "record_id": "recu97MCwXyf8vlwT",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 4": {
-            "record_id": "recx7GJ4fTtX7G7In",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 5 - Deception (OLD)": {
-            "record_id": "recPOAk9GEP3PKNm1",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 5 - Model Internals": {
-            "record_id": "recqAwydXfygJoxbU",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 6": {
-            "record_id": "recDPoo8RM1B10WAA",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 7": {
-            "record_id": "recJaOWqslHj9yFnx",
-            "make_packet": false
-        },
-        "MAIA AISF Technical Spring 2024 Meeting 8": {
-            "record_id": "rec5sJZuXQyxaDbyC",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 1 - Introduction to machine learning and AI": {
-            "record_id": "recZVv1vphT2WZmhf",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 2 - Overview of risks from advanced AI systems": {
-            "record_id": "recziVNqgb9vfFHW1",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 3 - Safety standards and regulations": {
-            "record_id": "recvmipCELPA5tBiW",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 4 - AI audits and evaluations": {
-            "record_id": "recd3FJ8M4pY4z8vm",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 4 - Self and Corporate Governance": {
-            "record_id": "rec3bJbqtrhcpjYYR",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 5 - Compute governance": {
-            "record_id": "recrJ7k1JqKAebXSn",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 6 - International approaches to AI regulation": {
-            "record_id": "recnp7x1g8RmwKZFO",
-            "make_packet": false
-        },
-        "MAIA AISF Policy Spring 2024 Meeting 7 - Other proposals, next steps, and careers": {
-            "record_id": "recMtKFW5BcorOxQ9",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 1 - TBD": {
-            "record_id": "recskC5aEHeOQkyn9",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 2 - Sleeper Agents": {
-            "record_id": "recwm3otEoIiqUjIU",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 3 - TBD": {
-            "record_id": "recw1nZ0AnCeBxxv5",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 4 - TBD": {
-            "record_id": "rec3Ossv0fYovLZU6",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 5 - TBD": {
-            "record_id": "recPA69vEKgNiXYjr",
-            "make_packet": false
-        },
-        "MAIA Undergrad Member Meeting Spring 2024 Meeting 6 - TBD": {
-            "record_id": "rec7Tq3ooTpIGsMx9",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "rec0UIJwNLowqybnF"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 1 - TBD": {
-            "record_id": "recp47JVLvZYFkezG",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recp47JVLvZYFkezG"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 2 - Sleeper Agents": {
-            "record_id": "recqTn1D4he0kWxkZ",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recqTn1D4he0kWxkZ"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 3 - TBD": {
-            "record_id": "recYQNHQ4As0eP9P6",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recYQNHQ4As0eP9P6"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 4 - TBD": {
-            "record_id": "recl4SmSupTZubXwx",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recl4SmSupTZubXwx"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 5 - TBD": {
-            "record_id": "recSZrpoCFsbiI5Ei",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recSZrpoCFsbiI5Ei"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 6 - TBD": {
-            "record_id": "recN5t8MqkRmtJif8",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recN5t8MqkRmtJif8"
         },
         "MAIA Advanced Undergrad Member Meeting Spring 2024 Meeting 7 - TBD": {
-            "record_id": "recTcreD5G7mZIrXC",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recTcreD5G7mZIrXC"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 1 - Introduction to machine learning and AI": {
+            "make_packet": false,
+            "record_id": "recZVv1vphT2WZmhf"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 2 - Overview of risks from advanced AI systems": {
+            "make_packet": false,
+            "record_id": "recziVNqgb9vfFHW1"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 3 - Safety standards and regulations": {
+            "make_packet": false,
+            "record_id": "recvmipCELPA5tBiW"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 4 - AI audits and evaluations": {
+            "make_packet": false,
+            "record_id": "recd3FJ8M4pY4z8vm"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 4 - Self and Corporate Governance": {
+            "make_packet": false,
+            "record_id": "rec3bJbqtrhcpjYYR"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 5 - Compute governance": {
+            "make_packet": false,
+            "record_id": "recrJ7k1JqKAebXSn"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 6 - International approaches to AI regulation": {
+            "make_packet": false,
+            "record_id": "recnp7x1g8RmwKZFO"
+        },
+        "MAIA AISF Policy Spring 2024 Meeting 7 - Other proposals, next steps, and careers": {
+            "make_packet": false,
+            "record_id": "recMtKFW5BcorOxQ9"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 1": {
+            "make_packet": false,
+            "record_id": "rec8FeFcfk7yZ0cNg"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 2": {
+            "make_packet": false,
+            "record_id": "recPDjQcEHnVVPPao"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 3": {
+            "make_packet": false,
+            "record_id": "recMfRjWgSwAAFpgO"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 4": {
+            "make_packet": false,
+            "record_id": "recnKQc8wVaB385p0"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 5": {
+            "make_packet": false,
+            "record_id": "recShrUJedZotHLKh"
+        },
+        "MAIA AISF Technical Fall 2024 Meeting 6": {
+            "make_packet": false,
+            "record_id": "recQ67JGy4pG42Vrg"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 0": {
+            "make_packet": false,
+            "record_id": "recRJ7FzFzL5sD2LE"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 1": {
+            "make_packet": false,
+            "record_id": "recJNPxFUBXvrAHVN"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 2": {
+            "make_packet": false,
+            "record_id": "recBkKP8v8Xli6j23"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 3": {
+            "make_packet": false,
+            "record_id": "recu97MCwXyf8vlwT"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 4": {
+            "make_packet": false,
+            "record_id": "recx7GJ4fTtX7G7In"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 5 - Deception (OLD)": {
+            "make_packet": false,
+            "record_id": "recPOAk9GEP3PKNm1"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 5 - Model Internals": {
+            "make_packet": false,
+            "record_id": "recqAwydXfygJoxbU"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 6": {
+            "make_packet": false,
+            "record_id": "recDPoo8RM1B10WAA"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 7": {
+            "make_packet": false,
+            "record_id": "recJaOWqslHj9yFnx"
+        },
+        "MAIA AISF Technical Spring 2024 Meeting 8": {
+            "make_packet": false,
+            "record_id": "rec5sJZuXQyxaDbyC"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 1 - TBD": {
-            "record_id": "reccAZVbfoIDTjS8y",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "reccAZVbfoIDTjS8y"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 2 - TBD": {
-            "record_id": "recf6Ao4pf4pKTPrB",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recf6Ao4pf4pKTPrB"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 3 - TBD": {
-            "record_id": "recDISXClWKZhKOZ2",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recDISXClWKZhKOZ2"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 4 - TBD": {
-            "record_id": "recGT20Y7bEtMpF8I",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recGT20Y7bEtMpF8I"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 5 - TBD": {
-            "record_id": "recw6Gj8BGeN2wqcZ",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recw6Gj8BGeN2wqcZ"
         },
         "MAIA Grad Member Meeting Spring 2024 Meeting 6 - TBD": {
-            "record_id": "recqkctbEtGV9y8bl",
-            "make_packet": false
+            "make_packet": false,
+            "record_id": "recqkctbEtGV9y8bl"
         },
-        "MAIA AISF Technical Fall 2024 Meeting 1\n": {
-            "record_id": "rec8FeFcfk7yZ0cNg",
-            "make_packet": true
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 1 - TBD": {
+            "make_packet": false,
+            "record_id": "recskC5aEHeOQkyn9"
+        },
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 2 - Sleeper Agents": {
+            "make_packet": false,
+            "record_id": "recwm3otEoIiqUjIU"
+        },
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 3 - TBD": {
+            "make_packet": false,
+            "record_id": "recw1nZ0AnCeBxxv5"
+        },
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 4 - TBD": {
+            "make_packet": false,
+            "record_id": "rec3Ossv0fYovLZU6"
+        },
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 5 - TBD": {
+            "make_packet": false,
+            "record_id": "recPA69vEKgNiXYjr"
+        },
+        "MAIA Undergrad Member Meeting Spring 2024 Meeting 6 - TBD": {
+            "make_packet": false,
+            "record_id": "rec7Tq3ooTpIGsMx9"
         }
     },
+    "error_pdf": "templates/ERROR.pdf",
     "generate": {
         "cover": true,
         "device_readings": true,
         "further_readings": true,
         "packet": true,
         "tas_guides": false
+    },
+    "output_dir": "output/",
+    "templates": {
+        "cover": "templates/Cover Page Template.docx",
+        "device_reading": "templates/Device Reading.docx",
+        "further_reading": "templates/Further Reading.docx",
+        "tas_guide": "templates/TAs Guide.docx"
     }
 }
