@@ -35,7 +35,7 @@ from src.ta_guide import generate_ta_guides
 from src.DocumentGenerator import (
     logger,
 )
-from src.template_factory import adjustLogo, make_id_from_title
+from src.utils import adjustLogo, make_id_from_title
 
 config = json.load(open("config.json", "r"))
 

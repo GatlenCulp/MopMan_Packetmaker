@@ -2,7 +2,7 @@ from pathlib import Path
 import urllib.parse
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from PIL import Image
 
 def get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
@@ -22,26 +22,24 @@ def get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
 
     # Look for a favicon link with rel="icon"
     icon_link = soup.find("link", rel="icon")
-    if icon_link:
+    if icon_link and isinstance(icon_link, Tag):
         favicon_url = icon_link.get("href")
 
     # If not found, look for a favicon link with rel="shortcut icon"
     if not favicon_url:
         icon_link = soup.find("link", rel="shortcut icon")
-        if icon_link:
+        if icon_link and isinstance(icon_link, Tag):
             favicon_url = icon_link.get("href")
 
     # If still not found, return a default favicon URL
     if not favicon_url:
         favicon_url = "/favicon.ico"
-
     # Make sure the favicon URL is absolute
-    favicon_url = urllib.parse.urljoin(base_url, favicon_url)
+    favicon_url = urllib.parse.urljoin(base_url, str(favicon_url))
 
     return favicon_url
 
-
-def download_favicon(favicon_url: str, output_path: Path) -> None:
+def download_favicon(favicon_url: str, output_path: Path) -> Path | None:
     try:
         # Send a GET request to the favicon URL
         response = requests.get(favicon_url)
@@ -59,7 +57,7 @@ def download_favicon(favicon_url: str, output_path: Path) -> None:
         print("An error occurred:", str(e))
 
 
-def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path:
+def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path | None:
     assert isinstance(output_path, Path)
     output_path = Path(output_path)  # todo: use Path instead lol
     try:
@@ -80,10 +78,13 @@ def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path:
 
             # Get the favicon URL
             favicon_url = get_favicon_url(base_url, soup)
-
             # Download the favicon
-            download_favicon(favicon_url, output_path)
-            return f"{output_path}.png"
+            if favicon_url:
+                download_favicon(favicon_url, output_path)
+                return output_path.with_suffix(".png")
+            else:
+                print("No favicon URL found.")
+                return None
         else:
             print("Failed to retrieve website. Status code:", response.status_code)
             return None
@@ -94,5 +95,5 @@ def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path:
 # Example usage:
 if __name__ == "__main__":
     website_url = "https://support.apple.com/guide/mac-help/use-your-ipad-as-a-second-display-mchlf3c6f7ae/mac"
-    output_path = "./favicon_output/test.ico"
+    output_path = Path("./favicon_output/test.ico")
     get_favicon_from_website(website_url, output_path)

@@ -2,7 +2,7 @@ from typing import Any
 from pathlib import Path
 from copy import deepcopy
 from src.DocumentGenerator import DeviceReadingGenerator
-from src.template_factory import make_id_from_title
+from src.utils import make_id_from_title
 
 def generate_device_readings(
     precontext: dict[str, Any], output_dir: Path, config: dict[str, Any]

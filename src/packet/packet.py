@@ -1,7 +1,7 @@
 from typing import Any
 from pathlib import Path
 import logging
-from src.template_factory import make_id_from_title
+from src.utils import make_id_from_title
 from src.pdf_helpers import mergePdfs
 from src.add_footer2pdf import add_footer_to_pdf
 

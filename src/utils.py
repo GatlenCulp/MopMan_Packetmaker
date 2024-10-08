@@ -53,7 +53,3 @@ def make_id_from_title(title):
     return "".join(
         char.lower() for char in title if char.isalnum() or char == " "
     ).replace(" ", "_")
-
-
-if __name__ == "__main__":
-    pass

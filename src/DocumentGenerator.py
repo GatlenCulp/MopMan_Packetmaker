@@ -6,7 +6,7 @@ import logging
 
 # Word must be installed for this to work!!
 import docx2pdf
-from src.template_factory import (
+from src.utils import (
     make_id_from_title,
     makeQRCode,
 )

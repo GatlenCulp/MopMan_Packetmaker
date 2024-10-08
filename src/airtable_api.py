@@ -1,14 +1,17 @@
-from airtable import airtable
-import requests
-from pathlib import Path
-from src.template_factory import make_id_from_title
 import json
-import dotenv
+from pathlib import Path
+from typing import Any
 
-# For mopman specifically: https://airtable.com/app6h2R2QQuhvFYVq/api/docs#javascript/metadata
+import dotenv
+import requests
+from airtable import airtable
+
+from src.utils import make_id_from_title
+
 env = dotenv.dotenv_values("secrets/.env")
 API_KEY = env["AIRTABLE_API_KEY"]
 BASE_ID = "app6h2R2QQuhvFYVq"
+assert API_KEY and isinstance(API_KEY, str)
 mopman = airtable.Airtable(BASE_ID, API_KEY)
 
 at_map = {
@@ -65,12 +68,10 @@ def getPrecontextForCurriculum(
         real_file_path = file_path.with_suffix("." + file_type)
         with open(str(real_file_path), mode="wb") as f:
             f.write(request.content)
-        # if str(real_file_path) == "output/test1/precontext/aisf_ml_meeting_5__model_internals/thumbnails/emergent_world_representations_exploring_a_sequence_model_trained_on_a_synthetic_task.jpeg":
-        #     print("AHHHH")
         return real_file_path
 
     def getFromRecord(
-        record: dict,
+        record: dict[str, Any] | airtable.Record,
         field: str,
         attachment_file_path: Path | None = None,
         single_attachment: bool = True,
@@ -116,11 +117,11 @@ def getPrecontextForCurriculum(
                 attachment_file_path=output_dir
                 / Path(
                     make_id_from_title(
-                        getFromRecord(reading, "title")
-                        + getFromRecord(reading, "subsection")
-                    ),
-                    single_attachment=True,
+                        str(getFromRecord(reading, "title"))
+                        + str(getFromRecord(reading, "subsection"))
+                    )
                 ),
+                single_attachment=True,
             ),
             "read_on_device": getFromRecord(reading, "read_on_device"),
             "subsection": getFromRecord(reading, "subsection"),
