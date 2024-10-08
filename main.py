@@ -26,12 +26,12 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
-from src.add_footer2pdf import add_footer_to_pdf
+from src.packet.cover import generate_cover
+from src.packet.packet import generate_packet
+from src.packet.further_readings import generate_further_readings
+from src.packet.device_readings import generate_device_readings
 from src.airtable_api import getPrecontextForCurriculum
 from src.DocumentGenerator import (
-    CoverGenerator,
-    DeviceReadingGenerator,
-    FurtherGenerator,
     GuideGenerator,
     logger,
 )
@@ -72,97 +72,6 @@ def getPrecontext(
         return precontext
     elif option_num == 2:
         raise NotImplementedError("Option 2 not implemented")
-
-
-def _generate_cover(precontext: dict[str, Any], output_dir: Path) -> Path | None:
-    if config["generate"]["cover"]:
-        cover = CoverGenerator(
-            Path(config["templates"]["cover"]),
-            output_dir / Path("Cover"),
-            precontext,
-            overwrite=True,
-        )
-        return cover.pdf_path
-
-
-def _generate_device_readings(
-    precontext: dict[str, Any], output_dir: Path
-) -> list[Path] | None:
-    device_reading_paths = []
-    if config["generate"]["device_readings"]:
-        for reading in precontext["core_readings"]:
-            if not reading["trimmed_pdf"] and not reading["read_on_device"]:
-                raise ValueError(
-                    f"Reading {reading['title']} has no trimmed pdf and is not labeled as read_on_device."
-                )
-            if not reading["read_on_device"]:
-                continue
-
-            # Create a new context for each device reading
-            device_reading_context = deepcopy(precontext)
-            device_reading_context["device_reading"] = reading
-
-            device_reading = DeviceReadingGenerator(
-                Path(config["templates"]["device_reading"]),
-                output_dir
-                / Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
-                device_reading_context,
-                overwrite=True,
-            )
-            reading["trimmed_pdf"] = device_reading.pdf_path
-            device_reading_paths.append(device_reading.pdf_path)
-
-        return device_reading_paths
-    return None
-
-
-def _generate_further_readings(
-    precontext: dict[str, Any], output_dir: Path
-) -> Path | None:
-    if precontext["further_readings"] and config["generate"]["further_readings"]:
-        further = FurtherGenerator(
-            Path(config["templates"]["further_reading"]),
-            output_dir / Path("Further"),
-            precontext,
-            overwrite=True,
-        )
-        return further.pdf_path
-
-
-def _generate_packet(
-    precontext: dict[str, Any],
-    output_dir: Path,
-    cover_pdf_path: Path | None,
-    device_reading_paths: list[Path] | None,
-    further_pdf_path: Path | None,
-) -> Path | None:
-    if config["generate"]["packet"]:
-        print("\n")
-        logger.info(
-            "Merging cover, core readings, device readings, and further reading page into packet..."
-        )
-        reading_pdf_paths = [
-            Path(reading["trimmed_pdf"]) for reading in precontext["core_readings"]
-        ]
-
-        packet_path = mergePdfs(
-            ([cover_pdf_path] if cover_pdf_path else [])
-            + reading_pdf_paths
-            + (device_reading_paths or [])
-            + ([further_pdf_path] if further_pdf_path else []),
-            output_path=output_dir
-            / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
-        )
-
-        packet_path = add_footer_to_pdf(
-            packet_path,
-            packet_path,
-            footer_text=precontext["program_name"] + " Readings — Page {i} of {n}",
-        )
-
-        logger.info(f"[SUCCESS] Packet created. {packet_path}")
-        return packet_path
-    return None
 
 
 def _generate_ta_guides(precontext: dict[str, Any], output_dir: Path) -> None:
@@ -234,12 +143,12 @@ def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     precontext["logo_path"] = str(adjustLogo(logo_path, output_path=output_dir))
     logger.info(f"[SUCCESS] logo fixed. {precontext['logo_path']}")
 
-    cover_pdf_path = _generate_cover(precontext, output_dir)
-    device_reading_paths = _generate_device_readings(precontext, output_dir)
-    further_pdf_path = _generate_further_readings(precontext, output_dir)
+    cover_pdf_path = generate_cover(precontext, output_dir, config)
+    device_reading_paths = generate_device_readings(precontext, output_dir, config)
+    further_pdf_path = generate_further_readings(precontext, output_dir, config)
 
-    packet_path = _generate_packet(
-        precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path
+    _ = generate_packet(
+        precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path, config, logger
     )
 
     _generate_ta_guides(precontext, output_dir)
