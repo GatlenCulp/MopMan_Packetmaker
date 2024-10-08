@@ -23,12 +23,11 @@ import json
 import os
 import subprocess
 from copy import deepcopy
-from typing import Any
 from pathlib import Path
+from typing import Any
 
 from src.add_footer2pdf import add_footer_to_pdf
 from src.airtable_api import getPrecontextForCurriculum
-from src.pdf_helpers import mergePdfs
 from src.DocumentGenerator import (
     CoverGenerator,
     DeviceReadingGenerator,
@@ -36,6 +35,7 @@ from src.DocumentGenerator import (
     GuideGenerator,
     logger,
 )
+from src.pdf_helpers import mergePdfs
 from src.template_factory import adjustLogo, makeIDFromTitle
 
 config = json.load(open("config.json", "r"))
@@ -48,7 +48,9 @@ def check_permissions(path: Path) -> bool:
     return True
 
 
-def getPrecontext(curriculum_id: str, output_dir: Path, option_num: int = 1) -> dict[str, Any] | None:
+def getPrecontext(
+    curriculum_id: str, output_dir: Path, option_num: int = 1
+) -> dict[str, Any] | None:
     """
     Retrieves precontext data for a given curriculum.
 
@@ -71,6 +73,7 @@ def getPrecontext(curriculum_id: str, output_dir: Path, option_num: int = 1) -> 
     elif option_num == 2:
         raise NotImplementedError("Option 2 not implemented")
 
+
 def _generate_cover(precontext: dict[str, Any], output_dir: Path) -> Path | None:
     if config["generate"]["cover"]:
         cover = CoverGenerator(
@@ -81,7 +84,10 @@ def _generate_cover(precontext: dict[str, Any], output_dir: Path) -> Path | None
         )
         return cover.pdf_path
 
-def _generate_device_readings(precontext: dict[str, Any], output_dir: Path) -> list[Path] | None:
+
+def _generate_device_readings(
+    precontext: dict[str, Any], output_dir: Path
+) -> list[Path] | None:
     device_reading_paths = []
     if config["generate"]["device_readings"]:
         for reading in precontext["core_readings"]:
@@ -91,25 +97,28 @@ def _generate_device_readings(precontext: dict[str, Any], output_dir: Path) -> l
                 )
             if not reading["read_on_device"]:
                 continue
-            
+
             # Create a new context for each device reading
             device_reading_context = deepcopy(precontext)
             device_reading_context["device_reading"] = reading
-            
+
             device_reading = DeviceReadingGenerator(
                 Path(config["templates"]["device_reading"]),
-                output_dir / Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
+                output_dir
+                / Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
                 device_reading_context,
                 overwrite=True,
             )
             reading["trimmed_pdf"] = device_reading.pdf_path
             device_reading_paths.append(device_reading.pdf_path)
-        
+
         return device_reading_paths
     return None
 
 
-def _generate_further_readings(precontext: dict[str, Any], output_dir: Path) -> Path | None:
+def _generate_further_readings(
+    precontext: dict[str, Any], output_dir: Path
+) -> Path | None:
     if precontext["further_readings"] and config["generate"]["further_readings"]:
         further = FurtherGenerator(
             Path(config["templates"]["further_reading"]),
@@ -119,29 +128,82 @@ def _generate_further_readings(precontext: dict[str, Any], output_dir: Path) -> 
         )
         return further.pdf_path
 
-def _generate_packet(precontext: dict[str, Any], output_dir: Path, cover_pdf_path: Path | None, device_reading_paths: list[Path] | None, further_pdf_path: Path | None) -> Path | None:
+
+def _generate_packet(
+    precontext: dict[str, Any],
+    output_dir: Path,
+    cover_pdf_path: Path | None,
+    device_reading_paths: list[Path] | None,
+    further_pdf_path: Path | None,
+) -> Path | None:
     if config["generate"]["packet"]:
         print("\n")
-        logger.info("Merging cover, core readings, device readings, and further reading page into packet...")
-        reading_pdf_paths = [Path(reading["trimmed_pdf"]) for reading in precontext["core_readings"]]
-        
+        logger.info(
+            "Merging cover, core readings, device readings, and further reading page into packet..."
+        )
+        reading_pdf_paths = [
+            Path(reading["trimmed_pdf"]) for reading in precontext["core_readings"]
+        ]
+
         packet_path = mergePdfs(
             ([cover_pdf_path] if cover_pdf_path else [])
             + reading_pdf_paths
             + (device_reading_paths or [])
             + ([further_pdf_path] if further_pdf_path else []),
-            output_path=output_dir / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
+            output_path=output_dir
+            / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
         )
-        
+
         packet_path = add_footer_to_pdf(
             packet_path,
             packet_path,
             footer_text=precontext["program_name"] + " Readings — Page {i} of {n}",
         )
-        
+
         logger.info(f"[SUCCESS] Packet created. {packet_path}")
         return packet_path
     return None
+
+
+def _generate_ta_guides(precontext: dict[str, Any], output_dir: Path) -> None:
+    if config["generate"]["tas_guides"]:
+        print("\n")
+        logger.info("Generating TA guides. This may take a while...")
+        guide_template_path = Path(config["templates"]["tas_guide"])
+        ta_guide_output_dir = output_dir / Path("TA Guides")
+
+        for cohort in precontext["cohorts"]:
+            logger.info(f"Making {cohort['name']}")
+            cohort_context = deepcopy(precontext)
+            cohort_context["cohort"] = cohort
+            guide_name = f'{makeIDFromTitle(cohort["name"])} n{cohort["num_members"]}'
+            guide_dir = ta_guide_output_dir / Path(guide_name)
+
+            guide = GuideGenerator(
+                guide_template_path, guide_dir, cohort_context, overwrite=True
+            )
+
+            meeting_ta_guide_pdf = (
+                [Path(precontext["meeting_ta_guide_pdf"])]
+                if precontext["meeting_ta_guide_pdf"]
+                else []
+            )
+
+            guide_pdfs = (
+                [guide.pdf_path]
+                + meeting_ta_guide_pdf
+                + [Path(precontext["base_ta_guide_pdf"])]
+            )
+
+            guide_path = mergePdfs(
+                guide_pdfs,
+                output_path=ta_guide_output_dir / Path(guide_name + ".pdf"),
+            )
+
+            logger.info(f"[SUCCESS] {guide_path}")
+
+        logger.info("[SUCCESS] All TA guides generated.")
+
 
 def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     """
@@ -175,50 +237,40 @@ def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     cover_pdf_path = _generate_cover(precontext, output_dir)
     device_reading_paths = _generate_device_readings(precontext, output_dir)
     further_pdf_path = _generate_further_readings(precontext, output_dir)
-    
-    packet_path = _generate_packet(precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path)
 
-    ## Generate TA Guides
-    if config["generate"]["tas_guides"]:
-        print("\n")
-        logger.info("Generating TA guides. This may take a while...")
-        guide_template_path = Path(config["templates"]["tas_guide"])
-        ta_guide_output_dir = output_dir / Path("TA Guides")
-        for cohort in precontext["cohorts"]:
-            logger.info(f"Making {cohort['name']}")
-            precontext["cohort"] = cohort
-            guide_name = f'{makeIDFromTitle(precontext["cohort"]["name"])} n{precontext["cohort"]["num_members"]}'
-            guide_dir = ta_guide_output_dir / Path(guide_name)
-            guide = GuideGenerator(
-                guide_template_path, guide_dir, precontext, overwrite=True
-            )
-            meeting_ta_guide_pdf = (
-                [Path(precontext["meeting_ta_guide_pdf"])]
-                if precontext["meeting_ta_guide_pdf"]
-                else []
-            )
-            guide_pdfs = (
-                [guide.pdf_path]
-                + meeting_ta_guide_pdf
-                + [Path(precontext["base_ta_guide_pdf"])]
-            )
-            guide_path = mergePdfs(
-                guide_pdfs,
-                output_path=ta_guide_output_dir / Path(guide_name + ".pdf"),
-            )
-            logger.info(f"[SUCCESS] {guide_path}")
-        logger.info("[SUCCESS] All TA guides generated.")
+    packet_path = _generate_packet(
+        precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path
+    )
+
+    _generate_ta_guides(precontext, output_dir)
+
+
+def check_output_permissions(output_dir: Path) -> None:
+    if not check_permissions(output_dir):
+        raise PermissionError(
+            f"Insufficient permissions for output directory: {output_dir}"
+        )
+
+
+def process_curriculum(curriculum: str, details: dict, base_output_dir: Path) -> None:
+    if details["make_packet"]:
+        curriculum_id = details["record_id"]
+        output_dir = base_output_dir / Path(makeIDFromTitle(curriculum))
+        main(curriculum_id, output_dir=output_dir)
+        open_output_directory(output_dir)
+
+
+def open_output_directory(output_dir: Path) -> None:
+    subprocess.call(["open", "-R", str(output_dir)])
+
+
+def run_curriculum_generation() -> None:
+    base_output_dir = Path(config["output_dir"])
+    check_output_permissions(base_output_dir)
+
+    for curriculum, details in config["curriculum"].items():
+        process_curriculum(curriculum, details, base_output_dir)
 
 
 if __name__ == "__main__":
-    # In the main function, before generating the cover:
-    if not check_permissions(config["output_dir"]):
-        raise PermissionError(
-            f"Insufficient permissions for output directory: {config["output_dir"]}"
-        )
-    for curriculum, details in config["curriculum"].items():
-        if details["make_packet"]:
-            curriculum_id = details["record_id"]
-            output_dir = Path(config["output_dir"]) / Path(makeIDFromTitle(curriculum))
-            main(curriculum_id, output_dir=output_dir)
-            subprocess.call(["open", "-R", str(output_dir)])
+    run_curriculum_generation()
