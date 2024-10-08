@@ -30,11 +30,9 @@ from src.packet.cover import generate_cover
 from src.packet.packet import generate_packet
 from src.packet.further_readings import generate_further_readings
 from src.packet.device_readings import generate_device_readings
-from src.airtable_api import getPrecontextForCurriculum 
+from src.airtable.airtable_api import getPrecontextForCurriculum
 from src.ta_guide import generate_ta_guides
-from src.DocumentGenerator import (
-    logger,
-)
+from src.DocumentGenerator import logger
 from src.utils import adjustLogo, make_id_from_title
 
 config = json.load(open("config.json", "r"))
@@ -107,7 +105,13 @@ def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     further_pdf_path = generate_further_readings(precontext, output_dir, config)
 
     _ = generate_packet(
-        precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path, config, logger
+        precontext,
+        output_dir,
+        cover_pdf_path,
+        device_reading_paths,
+        further_pdf_path,
+        config,
+        logger,
     )
 
     generate_ta_guides(precontext, output_dir, config, logger)

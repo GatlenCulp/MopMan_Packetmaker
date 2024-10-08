@@ -4,9 +4,6 @@ import io
 import pathlib as pl
 from reportlab.pdfgen import canvas
 
-# Width: 612 points (8.5 inches * 72 points per inch)
-# Height: 792 points (11 inches * 72 points per inch)
-
 
 def create_footer_pdf(
     num_pages: int,
@@ -61,11 +58,3 @@ def add_footer_to_pdf(
         pdf_writer.write(f_out)
 
     return output_pdf_path
-
-
-if __name__ == "__main__":
-    input_pdf_path = pl.Path("output/test1/aisf_ml_meeting_5__model_internals.pdf")
-    output_pdf_path = pl.Path(
-        "output/test1/FOOTER aisf_ml_meeting_5__model_internals.pdf"
-    )
-    add_footer_to_pdf(input_pdf_path, output_pdf_path)
