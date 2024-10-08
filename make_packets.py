@@ -14,7 +14,7 @@ from src.DocumentGenerator import (
     GuideGenerator,
     logger,
 )
-from src.template_factory import adjustLogo, makeIDFromTitle
+from src.template_factory import adjustLogo, make_id_from_title
 
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
@@ -101,7 +101,7 @@ def make_packet(curriculum_id: str, output_dir: Path = Path("./output/")) -> Non
             device_reading = DeviceReadingGenerator(
                 Path(config["templates"]["device_reading"]),
                 output_dir
-                / Path(f"Device Readings/{makeIDFromTitle(reading['title'])}"),
+                / Path(f"Device Readings/{make_id_from_title(reading['title'])}"),
                 precontext,
                 overwrite=True,
             )
@@ -133,7 +133,7 @@ def make_packet(curriculum_id: str, output_dir: Path = Path("./output/")) -> Non
             + reading_pdf_paths
             + ([further_pdf_path] if further_pdf_path else []),
             output_path=output_dir
-            / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
+            / Path(make_id_from_title(precontext["curriculum_name"]) + ".pdf"),
         )
         packet_path = add_footer_to_pdf(
             packet_path,
@@ -151,7 +151,7 @@ def make_packet(curriculum_id: str, output_dir: Path = Path("./output/")) -> Non
         for cohort in precontext["cohorts"]:
             logger.info(f"Making {cohort['name']}")
             precontext["cohort"] = cohort
-            guide_name = f'{makeIDFromTitle(precontext["cohort"]["name"])} n{precontext["cohort"]["num_members"]}'
+            guide_name = f'{make_id_from_title(precontext["cohort"]["name"])} n{precontext["cohort"]["num_members"]}'
             guide_dir = ta_guide_output_dir / Path(guide_name)
             guide = GuideGenerator(
                 guide_template_path, guide_dir, precontext, overwrite=True
@@ -178,7 +178,7 @@ def make_packets_from_config(config: dict) -> None:
     for curriculum in config["curriculum"]:
         if config["curriculum"][curriculum]["make_packet"]:
             curriculum_id = config["curriculum"][curriculum]["record_id"]
-            output_dir = Path(config["output_dir"]) / Path(makeIDFromTitle(curriculum))
+            output_dir = Path(config["output_dir"]) / Path(make_id_from_title(curriculum))
             make_packet(curriculum_id, output_dir=output_dir)
             subprocess.call(["open", "-R", str(output_dir)])
 

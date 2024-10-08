@@ -3,7 +3,9 @@ from pathlib import Path
 from pypdf import PdfWriter
 
 
-def mergePdfs(pdf_paths: list[Path], output_path: Path, merge_on_odd: bool = True) -> Path:
+def mergePdfs(
+    pdf_paths: list[Path], output_path: Path, merge_on_odd: bool = True
+) -> Path:
     assert isinstance(pdf_paths, list)
     assert all([isinstance(path, Path) for path in pdf_paths])
     assert isinstance(output_path, Path)

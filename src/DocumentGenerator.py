@@ -7,7 +7,7 @@ import logging
 # Word must be installed for this to work!!
 import docx2pdf
 from src.template_factory import (
-    makeIDFromTitle,
+    make_id_from_title,
     makeQRCode,
 )
 from src.favicon_downloader import get_favicon_from_website
@@ -227,7 +227,7 @@ class FurtherGenerator(DocumentGenerator):
         ## Id, Truncate links, QR codes, and thumbnails to context
         for reading in context["further_readings"]:
             url = reading["url"]
-            id = reading["id"] = makeIDFromTitle(
+            id = reading["id"] = make_id_from_title(
                 reading["title"]
             )  # necessary bc special characters forbidden as file names.
             if url:
@@ -279,7 +279,7 @@ class DeviceReadingGenerator(DocumentGenerator):
         ## Id, Truncate links, QR codes, and thumbnails to context
         reading = context["device_reading"]
         url = reading["url"]
-        id = reading["id"] = makeIDFromTitle(
+        id = reading["id"] = make_id_from_title(
             reading["title"]
         )  # necessary bc special characters forbidden as file names.
         if url:

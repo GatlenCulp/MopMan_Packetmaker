@@ -1,11 +1,22 @@
+from pathlib import Path
+import urllib.parse
+
 import requests
 from bs4 import BeautifulSoup
-import urllib.parse
 from PIL import Image
-import pathlib as pl
 
+def get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
+    """
+    Extracts the favicon URL from a BeautifulSoup object.
 
-def get_favicon_url(base_url, soup):
+    This function searches for favicon links in the HTML, first looking for
+    a link with rel="icon", then rel="shortcut icon". If no favicon is found,
+    it defaults to "/favicon.ico".
+
+    :param str base_url: The base URL of the website being scraped.
+    :param BeautifulSoup soup: A BeautifulSoup object representing the parsed HTML.
+    :return str | None: The absolute URL of the favicon, or None if not found.
+    """
     # Find the favicon link in the HTML
     favicon_url = None
 
@@ -30,7 +41,7 @@ def get_favicon_url(base_url, soup):
     return favicon_url
 
 
-def download_favicon(favicon_url, output_path):
+def download_favicon(favicon_url: str, output_path: Path) -> None:
     try:
         # Send a GET request to the favicon URL
         response = requests.get(favicon_url)
@@ -48,9 +59,9 @@ def download_favicon(favicon_url, output_path):
         print("An error occurred:", str(e))
 
 
-def get_favicon_from_website(url, output_path: pl.Path = pl.Path("./")) -> pl.Path:
-    assert isinstance(output_path, pl.Path)
-    output_path = pl.Path(output_path)  # todo: use pl.Path instead lol
+def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path:
+    assert isinstance(output_path, Path)
+    output_path = Path(output_path)  # todo: use Path instead lol
     try:
         # Send a GET request to the website
         response = requests.get(url)

@@ -30,13 +30,12 @@ from src.packet.cover import generate_cover
 from src.packet.packet import generate_packet
 from src.packet.further_readings import generate_further_readings
 from src.packet.device_readings import generate_device_readings
-from src.airtable_api import getPrecontextForCurriculum
+from src.airtable_api import getPrecontextForCurriculum 
+from src.ta_guide import generate_ta_guides
 from src.DocumentGenerator import (
-    GuideGenerator,
     logger,
 )
-from src.pdf_helpers import mergePdfs
-from src.template_factory import adjustLogo, makeIDFromTitle
+from src.template_factory import adjustLogo, make_id_from_title
 
 config = json.load(open("config.json", "r"))
 
@@ -72,46 +71,6 @@ def getPrecontext(
         return precontext
     elif option_num == 2:
         raise NotImplementedError("Option 2 not implemented")
-
-
-def _generate_ta_guides(precontext: dict[str, Any], output_dir: Path) -> None:
-    if config["generate"]["tas_guides"]:
-        print("\n")
-        logger.info("Generating TA guides. This may take a while...")
-        guide_template_path = Path(config["templates"]["tas_guide"])
-        ta_guide_output_dir = output_dir / Path("TA Guides")
-
-        for cohort in precontext["cohorts"]:
-            logger.info(f"Making {cohort['name']}")
-            cohort_context = deepcopy(precontext)
-            cohort_context["cohort"] = cohort
-            guide_name = f'{makeIDFromTitle(cohort["name"])} n{cohort["num_members"]}'
-            guide_dir = ta_guide_output_dir / Path(guide_name)
-
-            guide = GuideGenerator(
-                guide_template_path, guide_dir, cohort_context, overwrite=True
-            )
-
-            meeting_ta_guide_pdf = (
-                [Path(precontext["meeting_ta_guide_pdf"])]
-                if precontext["meeting_ta_guide_pdf"]
-                else []
-            )
-
-            guide_pdfs = (
-                [guide.pdf_path]
-                + meeting_ta_guide_pdf
-                + [Path(precontext["base_ta_guide_pdf"])]
-            )
-
-            guide_path = mergePdfs(
-                guide_pdfs,
-                output_path=ta_guide_output_dir / Path(guide_name + ".pdf"),
-            )
-
-            logger.info(f"[SUCCESS] {guide_path}")
-
-        logger.info("[SUCCESS] All TA guides generated.")
 
 
 def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
@@ -151,7 +110,7 @@ def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
         precontext, output_dir, cover_pdf_path, device_reading_paths, further_pdf_path, config, logger
     )
 
-    _generate_ta_guides(precontext, output_dir)
+    generate_ta_guides(precontext, output_dir, config, logger)
 
 
 def check_output_permissions(output_dir: Path) -> None:
@@ -164,7 +123,7 @@ def check_output_permissions(output_dir: Path) -> None:
 def process_curriculum(curriculum: str, details: dict, base_output_dir: Path) -> None:
     if details["make_packet"]:
         curriculum_id = details["record_id"]
-        output_dir = base_output_dir / Path(makeIDFromTitle(curriculum))
+        output_dir = base_output_dir / Path(make_id_from_title(curriculum))
         main(curriculum_id, output_dir=output_dir)
         open_output_directory(output_dir)
 

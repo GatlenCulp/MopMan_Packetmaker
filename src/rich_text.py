@@ -11,7 +11,7 @@ from src.DocumentGenerator import (
     DocumentGenerator,
     logger,
 )
-from src.template_factory import adjustLogo, makeIDFromTitle
+from src.template_factory import adjustLogo, make_id_from_title
 
 
 class CoverTestGenerator(DocumentGenerator):
@@ -70,5 +70,5 @@ if __name__ == "__main__":
     curriculum = "AISF ML Meeting 5"
     main(
         curriculum_ids[curriculum],
-        output_dir=Path("./output") / Path(makeIDFromTitle("covertest")),
+        output_dir=Path("./output") / Path(make_id_from_title("covertest")),
     )

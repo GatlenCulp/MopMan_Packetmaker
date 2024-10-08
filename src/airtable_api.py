@@ -1,7 +1,7 @@
 from airtable import airtable
 import requests
 from pathlib import Path
-from src.template_factory import makeIDFromTitle
+from src.template_factory import make_id_from_title
 import json
 import dotenv
 
@@ -100,7 +100,7 @@ def getPrecontextForCurriculum(
 
     curriculum = mopman.get(at_map["curriculum"], curriculum_id)
     curriculum_name = getFromRecord(curriculum, "name")
-    output_dir = output_dir / makeIDFromTitle(curriculum_name)
+    output_dir = output_dir / make_id_from_title(curriculum_name)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # I can feel my perfectionism about how jank this is getting in the way of me actually doing it and saving time now lol. Learn to prototype my dude.
@@ -115,7 +115,7 @@ def getPrecontextForCurriculum(
                 "trimmed_pdf",
                 attachment_file_path=output_dir
                 / Path(
-                    makeIDFromTitle(
+                    make_id_from_title(
                         getFromRecord(reading, "title")
                         + getFromRecord(reading, "subsection")
                     ),

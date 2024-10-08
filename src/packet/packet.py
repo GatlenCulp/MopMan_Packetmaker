@@ -1,7 +1,7 @@
 from typing import Any
 from pathlib import Path
 import logging
-from src.template_factory import makeIDFromTitle
+from src.template_factory import make_id_from_title
 from src.pdf_helpers import mergePdfs
 from src.add_footer2pdf import add_footer_to_pdf
 
@@ -29,7 +29,7 @@ def generate_packet(
             + (device_reading_paths or [])
             + ([further_pdf_path] if further_pdf_path else []),
             output_path=output_dir
-            / Path(makeIDFromTitle(precontext["curriculum_name"]) + ".pdf"),
+            / Path(make_id_from_title(precontext["curriculum_name"]) + ".pdf"),
         )
 
         packet_path = add_footer_to_pdf(
