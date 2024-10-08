@@ -5,7 +5,7 @@ import pathlib as pl
 from reportlab.pdfgen import canvas
 
 
-def create_footer_pdf(
+def _create_footer_pdf(
     num_pages: int,
     footer_text="AISF Readings — Page {i} of {n}",
     font_name="Helvetica",
@@ -42,7 +42,7 @@ def add_footer_to_pdf(
     # Create footer pdf
     pdf_reader = PdfReader(open(str(input_pdf_path), "rb"))
     num_pages = len(pdf_reader.pages)
-    footer_pdf = create_footer_pdf(num_pages, footer_text=footer_text)
+    footer_pdf = _create_footer_pdf(num_pages, footer_text=footer_text)
 
     # Create a PdfWriter object
     pdf_writer = PdfWriter()

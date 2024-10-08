@@ -4,8 +4,8 @@ from typing import Any
 import logging
 
 from src.DocumentGenerator import GuideGenerator
-from src.pdf_helpers import mergePdfs
-from src.utils import make_id_from_title
+from src.utils.pdf_helpers import mergePdfs
+from src.utils.make_id_from_title import make_id_from_title
 
 def generate_ta_guides(precontext: dict[str, Any], output_dir: Path, config: dict[str, Any], logger: logging.Logger) -> None:
     if config["generate"]["tas_guides"]:

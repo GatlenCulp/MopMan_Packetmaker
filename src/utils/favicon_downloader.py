@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from PIL import Image
 
-def get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
+def _get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
     """
     Extracts the favicon URL from a BeautifulSoup object.
 
@@ -39,7 +39,7 @@ def get_favicon_url(base_url: str, soup: BeautifulSoup) -> str | None:
 
     return favicon_url
 
-def download_favicon(favicon_url: str, output_path: Path) -> Path | None:
+def _download_favicon(favicon_url: str, output_path: Path) -> Path | None:
     try:
         # Send a GET request to the favicon URL
         response = requests.get(favicon_url)
@@ -77,10 +77,10 @@ def get_favicon_from_website(url, output_path: Path = Path("./")) -> Path | None
             )
 
             # Get the favicon URL
-            favicon_url = get_favicon_url(base_url, soup)
+            favicon_url = _get_favicon_url(base_url, soup)
             # Download the favicon
             if favicon_url:
-                download_favicon(favicon_url, output_path)
+                _download_favicon(favicon_url, output_path)
                 return output_path.with_suffix(".png")
             else:
                 print("No favicon URL found.")

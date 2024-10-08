@@ -33,7 +33,8 @@ from src.packet.device_readings import generate_device_readings
 from src.airtable.airtable_api import getPrecontextForCurriculum
 from src.ta_guide import generate_ta_guides
 from src.DocumentGenerator import logger
-from src.utils import adjustLogo, make_id_from_title
+from src.utils.make_id_from_title import make_id_from_title
+from src.utils.adjust_logo import adjust_logo
 
 config = json.load(open("config.json", "r"))
 
@@ -97,7 +98,7 @@ def main(curriculum_id: str, output_dir: Path = Path("./output/")) -> None:
     logger.info("Fixing logo...")
     precontext = deepcopy(precontext)
     logo_path = Path(precontext["logo_path"])
-    precontext["logo_path"] = str(adjustLogo(logo_path, output_path=output_dir))
+    precontext["logo_path"] = str(adjust_logo(logo_path, output_path=output_dir))
     logger.info(f"[SUCCESS] logo fixed. {precontext['logo_path']}")
 
     cover_pdf_path = generate_cover(precontext, output_dir, config)

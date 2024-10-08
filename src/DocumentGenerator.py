@@ -1,33 +1,23 @@
-from docxtpl import DocxTemplate, InlineImage, RichText
-from docx.shared import Cm
-from copy import deepcopy
-import pathlib as pl
+import json
 import logging
+import pathlib as pl
+import urllib
+from copy import deepcopy
 
 # Word must be installed for this to work!!
 import docx2pdf
-from src.utils import (
-    make_id_from_title,
-    makeQRCode,
-)
-from src.favicon_downloader import get_favicon_from_website
-import urllib
-import json
+from docx.shared import Cm
+from docxtpl import DocxTemplate, InlineImage, RichText
+
+from src.utils.favicon_downloader import get_favicon_from_website
+from src.utils.make_id_from_title import make_id_from_title
+from src.utils.make_qrcode import make_qrcode
 
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
 
 
 def initLogger() -> logging.Logger:
-    """
-    Initializes the logger.
-
-    Returns:
-    --------
-    logging.Logger
-        The initialized logger.
-    """
-
     class CustomFormatter(logging.Formatter):
         grey = "\x1b[38;20m"
         yellow = "\x1b[33;20m"
@@ -239,7 +229,7 @@ class FurtherGenerator(DocumentGenerator):
                 ## Add QR codes
                 qr_code_dir = self.output_dir / pl.Path("qr_codes/")
                 qr_code_dir.mkdir(parents=True, exist_ok=True)
-                qr_code_path = makeQRCode(url, id, output_path=qr_code_dir)
+                qr_code_path = make_qrcode(url, id, output_path=qr_code_dir)
                 reading["qr_code"] = InlineImage(
                     self.template, str(qr_code_path), Cm(3)
                 )
@@ -291,7 +281,7 @@ class DeviceReadingGenerator(DocumentGenerator):
             ## Add QR codes
             qr_code_dir = self.output_dir / pl.Path("qr_codes/")
             qr_code_dir.mkdir(parents=True, exist_ok=True)
-            qr_code_path = makeQRCode(url, id, output_path=qr_code_dir)
+            qr_code_path = make_qrcode(url, id, output_path=qr_code_dir)
             reading["qr_code"] = InlineImage(self.template, str(qr_code_path), Cm(3))
             ## Add thumbnails if needed
             if not reading["thumbnail_path"]:

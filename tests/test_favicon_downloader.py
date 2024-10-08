@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock
 from bs4 import BeautifulSoup
 
-from src.favicon_downloader import get_favicon_url, download_favicon, get_favicon_from_website
+from src.favicon_downloader import _get_favicon_url, _download_favicon, get_favicon_from_website
 
 @pytest.fixture
 def mock_soup():
@@ -18,7 +18,7 @@ def mock_soup():
 
 def test_get_favicon_url(mock_soup):
     base_url = "https://example.com"
-    favicon_url = get_favicon_url(base_url, mock_soup)
+    favicon_url = _get_favicon_url(base_url, mock_soup)
     assert favicon_url == "https://example.com/favicon.ico"
 
 @patch('requests.get')
@@ -34,7 +34,7 @@ def test_download_favicon(mock_get):
         mock_image_open.return_value = mock_image
 
         output_path = Path("./test_favicon")
-        download_favicon("https://example.com/favicon.ico", output_path)
+        _download_favicon("https://example.com/favicon.ico", output_path)
 
         mock_open.assert_called_with(f"{output_path}.ico", "wb")
         mock_image.save.assert_called_with(f"{output_path}.png")

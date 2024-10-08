@@ -6,7 +6,7 @@ import dotenv
 import requests
 from airtable import airtable
 
-from src.utils import make_id_from_title
+from src.utils.make_id_from_title import make_id_from_title
 
 env = dotenv.dotenv_values("secrets/.env")
 API_KEY = env["AIRTABLE_API_KEY"]
