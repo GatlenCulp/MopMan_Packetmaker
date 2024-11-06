@@ -73,7 +73,7 @@
             "record_id": "recFwHTB6i5Ie0UgI"
         },
         "AISST Intro Fellowship Fall 2024 Meeting 1 - Reward Misspecification, RLHF, and Deception": {
-            "make_packet": true,
+            "make_packet": false,
             "record_id": "recilWlfhhHFsHRfK"
         },
         "AISST Intro Fellowship Fall 2024 Meeting 2 - Goals and Goal Misgeneralization": {
@@ -232,8 +232,8 @@
             "make_packet": false,
             "record_id": "recPDjQcEHnVVPPao"
         },
-        "MAIA AISF Technical Fall 2024 Meeting 3": {
-            "make_packet": false,
+        "MAIA AISF Technical Fall 2024 Meeting 5 - Scalable Oversight and Control": {
+            "make_packet": true,
             "record_id": "recMfRjWgSwAAFpgO"
         },
         "MAIA AISF Technical Fall 2024 Meeting 4": {
@@ -242,11 +242,11 @@
         },
         "MAIA AISF Technical Fall 2024 Meeting 5": {
             "make_packet": false,
-            "record_id": "recShrUJedZotHLKh"
+            "record_id": "recQ67JGy4pG42Vrg"
         },
         "MAIA AISF Technical Fall 2024 Meeting 6": {
             "make_packet": false,
-            "record_id": "recQ67JGy4pG42Vrg"
+            "record_id": "recShrUJedZotHLKh"
         },
         "MAIA AISF Technical Spring 2024 Meeting 0": {
             "make_packet": false,
